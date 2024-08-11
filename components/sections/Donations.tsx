@@ -1,69 +1,40 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { FiBookmark } from "react-icons/fi";
+import { donations } from "@/public/data/data";
+import Link from "next/link";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { categories } from "@/public/data/categories";
 
 const OpenDonationsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const donations = [
-    {
-      id: 1,
-      title: "Flood in Lamboa",
-      date: "June 27, 2021",
-      description:
-        "Lamboa community needs your help for crisis management from 3 days of non-stop flooding.",
-      image: "/images/flood-lamboa.jpg",
-      donationsCount: 230,
-    },
-    {
-      id: 2,
-      title: "Tsunami in Malika",
-      date: "June 27, 2021",
-      description:
-        "Emergency! A tsunami has just hit Malika, Treszoud District. Help our affected brothers and sisters.",
-      image: "/images/tsunami-malika.jpg",
-      donationsCount: 1089,
-    },
-    {
-      id: 3,
-      title: "Help African Children",
-      date: "June 27, 2021",
-      description:
-        "African Children need your help to get proper food and water. Prolonged crisis is a real urgency.",
-      image: "/images/help-african-children.jpg",
-      donationsCount: 748,
-    },
-    {
-      id: 4,
-      title: "Sianka Forest Fire",
-      date: "June 27, 2021",
-      description:
-        "The Sianka forest has caught fire and affected the surrounding community. Let’s help buy their health facilities!",
-      image: "/images/sianka-forest-fire.jpg",
-      donationsCount: 320,
-    },
-    {
-      id: 5,
-      title: "Soporo Earthquake",
-      date: "June 27, 2021",
-      description:
-        "A magnitude 7.3 earthquake has shaken Soporo sub-district, help them recover with food and medicine.",
-      image: "/images/soporo-earthquake.jpg",
-      donationsCount: 769,
-    },
-    {
-      id: 6,
-      title: "Lidu Land Drought",
-      date: "June 27, 2021",
-      description:
-        "The people of Tarah Lidu are currently suffering from drought, help them get clean water!",
-      image: "/images/lidu-land-drought.jpg",
-      donationsCount: 748,
-    },
-  ];
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
-  const filteredDonations = donations.filter((donation) =>
-    donation.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredDonations = donations.filter((donation) => {
+    const matchesQuery = donation.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All" || donation.category === selectedCategory;
+    return matchesQuery && matchesCategory;
+  });
+
+  //   pagination
+  const totalItems = filteredDonations.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredDonations.slice(
+    indexOfFirstItem,
+    indexOfLastItem
   );
+
+  const handlePageChange = (page: React.SetStateAction<number>) => {
+    setCurrentPage(page);
+  };
 
   return (
     <section className="py-10">
@@ -76,49 +47,118 @@ const OpenDonationsList = () => {
             <input
               type="text"
               placeholder="Find donations..."
-              className="w-full max-w-md p-2 border border-gray-300 rounded-md"
+              className="w-full max-w-md p-2 border border-gray-300 rounded-full text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6">
-          {filteredDonations.map((donation) => (
-            <div
-              key={donation.id}
-              className="max-w-sm w-full border border-gray-200 rounded-lg shadow-sm overflow-hidden"
+        <div className="flex flex-wrap justify-center gap-2 mb-6">
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={`px-2 text-xs py-1 rounded-full border ${
+                selectedCategory === category
+                  ? "bg-teal-500 text-white"
+                  : "bg-white text-teal-500 border-teal-500"
+              }`}
+              onClick={() => setSelectedCategory(category)}
             >
-              <Image
-                src={donation.image}
-                alt={donation.title}
-                width={400}
-                height={300}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="text-lg font-bold text-gray-800 mb-2">
-                  {donation.title}
-                </h3>
-                <p className="text-xs text-gray-500 mb-4">{donation.date}</p>
-                <p className="text-sm text-gray-700 mb-4">
-                  {donation.description}
-                </p>
-                <p className="text-teal-500 text-sm font-bold mb-4">
-                  {donation.donationsCount} donations
-                </p>
-                <button className="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-full text-xs">
-                  Donate now
-                </button>
-              </div>
-            </div>
+              {category}
+            </button>
           ))}
         </div>
 
-        <div className="mt-8 text-center">
-          <button className="px-6 py-2 bg-teal-500 hover:bg-teal-600 rounded-full text-xs text-white">
-            Lihat semua →
-          </button>
+        {currentItems.length === 0 ? (
+          <p className="text-center text-gray-500">
+            No donations available for the selected category.
+          </p>
+        ) : (
+          <div className="flex flex-wrap justify-center gap-6">
+            {currentItems.map((donation) => (
+              <div
+                key={donation.id}
+                className="flex flex-col w-full sm:w-1/2 md:w-1/3 lg:w-1/4 border border-gray-200 rounded-md shadow-sm overflow-hidden"
+              >
+                <div className="relative">
+                  <Image
+                    src={donation.image}
+                    alt={donation.title}
+                    width={400}
+                    height={300}
+                    className="w-full h-48 object-cover"
+                  />
+                </div>
+                <div className="p-4 flex flex-col justify-between flex-grow">
+                  <div>
+                    <div className="flex justify-between items-center text-gray-500 text-xs mb-2">
+                      <span>{donation.date}</span>
+                      <span>{donation.donationsCount} donations</span>
+                    </div>
+                    <h3 className="text-md font-bold text-gray-800 mb-2">
+                      {donation.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-4 h-16 overflow-hidden">
+                      {donation.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="flex items-center justify-center px-2 py-[6px] border border-teal-500 rounded-sm bg-transparent hover:bg-teal-500 text-teal-500 hover:text-white cursor-pointer">
+                      <FiBookmark size={20} />
+                    </div>
+                    <button className="flex-1 ml-2 px-4 py-2 border border-teal-500 rounded-sm text-black bg-transparent hover:bg-teal-500 hover:text-white text-xs">
+                      Donate now
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="flex justify-between items-center mt-5 md:mx-32 ">
+          <nav className="inline-flex space-x-1">
+            <button
+              onClick={() => handlePageChange(1)}
+              className={`px-2 py-1 text-sm ${
+                currentPage === 1 ? "text-gray-400" : "text-teal-500"
+              }`}
+              disabled={currentPage === 1}
+            >
+              &laquo;
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                onClick={() => handlePageChange(i + 1)}
+                className={`px-3 rounded-md ${
+                  currentPage === i + 1
+                    ? "bg-teal-500 text-white"
+                    : "text-teal-500"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => handlePageChange(totalPages)}
+              className={`px-2 text-sm ${
+                currentPage === totalPages ? "text-gray-400" : "text-teal-500"
+              }`}
+              disabled={currentPage === totalPages}
+            >
+              &raquo;
+            </button>
+          </nav>
+          <div>
+            <Link
+              href={"/donations"}
+              className="text-teal-500 text-sm flex flex-row items-center gap-2"
+            >
+              See all <FaArrowRightLong size={15} />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

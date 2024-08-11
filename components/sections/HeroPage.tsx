@@ -1,5 +1,7 @@
 "use client";
+import { links } from "@/public/data/navlinks";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { BsPlayCircle } from "react-icons/bs";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -39,24 +41,15 @@ export const HeroPage = () => {
 
           {/* Desktop Menu */}
           <div className="hidden sm:flex space-x-4 sm:space-x-6 text-white pt-1">
-            <a href="#" className="hover:text-teal-500 text-xs">
-              Home
-            </a>
-            <a href="#" className="hover:text-teal-500 text-xs">
-              Charity
-            </a>
-            <a href="#" className="hover:text-teal-500 text-xs">
-              Disaster
-            </a>
-            <a href="#" className="hover:text-teal-500 text-xs">
-              Event
-            </a>
-            <a href="#" className="hover:text-teal-500 text-xs">
-              Open Data
-            </a>
-            <a href="#" className="hover:text-teal-500 text-xs">
-              (0351) 1117-555
-            </a>
+            {links.map((link) => (
+              <Link
+                key={link.text}
+                href={link.href}
+                className="hover:text-teal-500 text-xs"
+              >
+                {link.text}
+              </Link>
+            ))}
           </div>
         </nav>
 
@@ -72,40 +65,17 @@ export const HeroPage = () => {
             </button>
           </div>
           <ul className="flex flex-col items-center space-y-4 p-4">
-            <li>
-              <a href="#" className="text-lg hover:text-teal-500">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lg hover:text-teal-500">
-                Charity
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lg hover:text-teal-500">
-                Disaster
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lg hover:text-teal-500">
-                Event
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lg hover:text-teal-500">
-                Open Data
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-lg hover:text-teal-500">
-                (0351) 1117-555
-              </a>
-            </li>
+            {links.map((link) => (
+              <li key={link.text}>
+                <Link href={link.href} className="text-lg hover:text-teal-500">
+                  {link.text}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div className="flex flex-col items-center justify-center h-full text-center text-white px-4 mt-20 sm:mt-28">
+        <div className="flex flex-col items-center justify-center h-full text-center text-white px-4 mt-36 sm:mt-28">
           <div className="w-full max-w-xl">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4">
               <span className="text-[#13ADB7]">Happiness {""}</span>comes from{" "}
@@ -116,12 +86,12 @@ export const HeroPage = () => {
               Be a part of the breakthrough and make someone's dream come true.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <button className="px-6 py-2 bg-teal-500 hover:bg-teal-600 rounded-full text-xs">
+          <div className="flex flex-row space-x-4">
+            <button className="flex items-center justify-center px-8 py-4 md:py-3 bg-teal-500 hover:bg-teal-600 rounded-full text-xs">
               Donate now
             </button>
-            <button className="flex flex-row justify-center items-center gap-2 px-4 py-2 bg-transparent border border-slate-100 text-white hover:bg-gray-600 rounded-full text-xs">
-              <BsPlayCircle fontSize="14px" />
+            <button className="flex items-center justify-center gap-2 px-6 py-3 bg-transparent border border-slate-100 text-white hover:bg-gray-600 rounded-full text-xs">
+              <BsPlayCircle fontSize="18px" />
               Watch video
             </button>
           </div>
