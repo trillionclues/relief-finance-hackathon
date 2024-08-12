@@ -21,7 +21,10 @@ export const HeroPage = () => {
       <div className="absolute inset-0 bg-black opacity-65"></div>
       <div className="relative z-10">
         <nav className="flex items-center justify-between px-4 py-2 sm:px-8 sm:py-4">
-          <div className="flex items-center space-x-4 sm:space-x-8 pt-1">
+          <Link
+            href=""
+            className="flex items-center space-x-4 sm:space-x-8 pt-1"
+          >
             <div className="w-16 sm:w-24">
               <Image
                 src="/images/logo.png"
@@ -31,7 +34,7 @@ export const HeroPage = () => {
                 className="w-full h-auto"
               />
             </div>
-          </div>
+          </Link>
 
           <div className="sm:hidden">
             <button onClick={toggleNav} className="text-white">
@@ -40,7 +43,7 @@ export const HeroPage = () => {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden sm:flex space-x-4 sm:space-x-6 text-white pt-1">
+          <div className="hidden sm:flex items-center space-x-4 sm:space-x-6 text-white pt-1">
             {links.map((link) => (
               <Link
                 key={link.text}
@@ -50,12 +53,17 @@ export const HeroPage = () => {
                 {link.text}
               </Link>
             ))}
+            <Link href="/get-started">
+              <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs">
+                Get Started
+              </button>
+            </Link>
           </div>
         </nav>
 
         {/* Mobile Dropdown Menu */}
         <div
-          className={`fixed top-0 right-0 h-full w-3/4 bg-black text-white transition-transform transform ${
+          className={`fixed top-0 right-0 h-full w-3/4 bg-gray-800 text-white transition-transform transform ${
             isNavOpen ? "translate-x-0" : "translate-x-full"
           } sm:hidden`}
         >
@@ -72,6 +80,11 @@ export const HeroPage = () => {
                 </Link>
               </li>
             ))}
+            <Link href="/get-started">
+              <button className="bg-teal-500 hover:bg-teal-600 text-white px-10 py-4 rounded-full text-xs">
+                Get Started
+              </button>
+            </Link>
           </ul>
         </div>
 

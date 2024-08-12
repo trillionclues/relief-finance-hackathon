@@ -5,7 +5,7 @@ const MetricsOverview = () => {
   return (
     <section className="py-12 px-6 md:px-36">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start justify-between">
-        <div className="md:w-1/2 mb-8 md:mb-0">
+        <div className="md:w-3/5 mb-8 md:mb-0">
           <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">
             Humanitarian Mission
           </h3>
@@ -15,31 +15,35 @@ const MetricsOverview = () => {
             <span className="text-teal-500">Shortages</span>, and{" "}
             <span className="text-teal-500">Emergency Relief</span>.
           </h2>
-          <div className="space-y-2 text-sm text-gray-600">
-            <p>
-              <span className="text-teal-500">22,690</span> Donations have been
-              verified and still active.
-            </p>
-            <p>
-              <span className="text-teal-500">6,450</span> Donations have been
-              distributed to disaster-affected areas.
-            </p>
-            <p>
-              <span className="text-teal-500">1.4 Billion</span> total funds
-              raised so far.
-            </p>
-            <p>
-              <span className="text-teal-500">10,517</span> donations have been
-              distributed to the needy.
-            </p>
-            <p>
-              <span className="text-teal-500">5,058</span> donations were
-              distributed to social foundations and orphanages.
-            </p>
-            <p>
-              <span className="text-teal-500">4,803</span> donations have been
-              distributed to people in emergency situations.
-            </p>
+          <div className="space-y-4 text-sm text-gray-600 flex flex-col md:flex-row items-center justify-between md:gap-6">
+            <div className="flex flex-col items-start gap-2">
+              <p>
+                <span className="text-teal-500">22,690</span> Donations have
+                been verified and still active.
+              </p>
+              <p>
+                <span className="text-teal-500">6,450</span> Donations have been
+                distributed to disaster-affected areas.
+              </p>
+              <p>
+                <span className="text-teal-500">1.4 Billion</span> total funds
+                raised so far.
+              </p>
+            </div>
+            <div className="flex flex-col items-start gap-2">
+              <p>
+                <span className="text-teal-500">10,517</span> donations have
+                been distributed to the needy.
+              </p>
+              <p>
+                <span className="text-teal-500">5,058</span> donations were
+                distributed to social foundations and orphanages.
+              </p>
+              <p>
+                <span className="text-teal-500">4,803</span> donations have been
+                distributed to people in emergency situations.
+              </p>
+            </div>
           </div>
         </div>
 
