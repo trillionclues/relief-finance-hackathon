@@ -25,7 +25,7 @@ export const HeroPage = () => {
             href=""
             className="flex items-center space-x-4 sm:space-x-8 pt-1"
           >
-            <div className="w-16 sm:w-24">
+            <div className="w-24 sm:w-24">
               <Image
                 src="/images/logo.png"
                 width={100}

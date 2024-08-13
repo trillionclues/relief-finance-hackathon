@@ -113,7 +113,7 @@ const OpenDonationsList = () => {
                           ></div>
                         </div>
                         <div className="flex justify-between text-sm text-gray-500 mt-1">
-                          <span>€{donation.currentAmount.toFixed(2)}</span>
+                          <span>${donation.currentAmount.toFixed(2)}</span>
                           <span>{progress.toFixed(0)}%</span>
                         </div>
                       </div>
