@@ -21,11 +21,8 @@ export const HeroPage = () => {
       <div className="absolute inset-0 bg-black opacity-65"></div>
       <div className="relative z-10">
         <nav className="flex items-center justify-between px-4 py-2 sm:px-8 sm:py-4">
-          <Link
-            href=""
-            className="flex items-center space-x-4 sm:space-x-8 pt-1"
-          >
-            <div className="w-24 sm:w-24">
+          <Link href="" className="flex items-center space-x-4 sm:space-x-8">
+            <div className="w-24 sm:w-28">
               <Image
                 src="/images/logo.png"
                 width={100}

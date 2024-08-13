@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <main>
       <HeroPage />
+      <MetricsOverview />
       <OpenDonationsList />
       <OverviewSection />
-      <MetricsOverview />
       <PartnersOverview />
       <FooterSection />
     </main>
