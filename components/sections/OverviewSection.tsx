@@ -13,7 +13,7 @@ const OverviewSection = () => {
   };
 
   return (
-    <section className="py-10 px-6 md:px-36">
+    <section className="py-10 px-6 md:px-36" id="faq">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <div className="md:w-1/2 lg:w-2/4 ">

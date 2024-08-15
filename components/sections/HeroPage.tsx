@@ -50,7 +50,7 @@ export const HeroPage = () => {
                 {link.text}
               </Link>
             ))}
-            <Link href="/get-started">
+            <Link href="/login">
               <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs">
                 Get Started
               </button>
@@ -77,7 +77,7 @@ export const HeroPage = () => {
                 </Link>
               </li>
             ))}
-            <Link href="/get-started">
+            <Link href="/login">
               <button className="bg-teal-500 hover:bg-teal-600 text-white px-10 py-4 rounded-full text-xs">
                 Get Started
               </button>
@@ -97,9 +97,11 @@ export const HeroPage = () => {
             </p>
           </div>
           <div className="flex flex-row space-x-4">
-            <button className="flex items-center justify-center px-8 py-4 md:py-3 bg-teal-500 hover:bg-teal-600 rounded-full text-xs">
-              Donate now
-            </button>
+            <Link href="#open-proposals">
+              <button className="flex items-center justify-center px-8 py-4 md:py-3 bg-teal-500 hover:bg-teal-600 rounded-full text-xs">
+                Donate now
+              </button>
+            </Link>
             <button className="flex items-center justify-center gap-2 px-6 py-3 bg-transparent border border-slate-100 text-white hover:bg-gray-600 rounded-full text-xs">
               <BsPlayCircle fontSize="18px" />
               Watch video

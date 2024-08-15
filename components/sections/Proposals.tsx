@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FiBookmark } from "react-icons/fi";
-import { donations } from "@/public/data/data";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { categories } from "@/public/data/categories";
+import { proposals } from "@/public/data/data";
 
-const OpenDonationsList = () => {
+const OpenProposalsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,12 +22,12 @@ const OpenDonationsList = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const filteredDonations = donations.filter((donation) => {
-    const matchesQuery = donation.title
+  const filteredDonations = proposals.filter((proposal) => {
+    const matchesQuery = proposal.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || donation.category === selectedCategory;
+      selectedCategory === "All" || proposal.category === selectedCategory;
     return matchesQuery && matchesCategory;
   });
 
@@ -46,17 +46,17 @@ const OpenDonationsList = () => {
   };
 
   return (
-    <section className="py-10">
+    <section className="py-10" id="open-proposals">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-            Open <span className="text-teal-500">donations</span>
+            Open <span className="text-teal-500">proposals</span>
           </h2>
           <div className="mt-4">
             <input
               type="text"
-              placeholder="Find donations..."
-              className="w-full max-w-md p-2 border border-gray-300 rounded-full text-sm"
+              placeholder="Find proposals..."
+              className="w-full max-w-md p-2 border border-gray-300 rounded-full text-sm md:text-base"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -89,18 +89,18 @@ const OpenDonationsList = () => {
           </p>
         ) : (
           <div className="flex flex-wrap justify-center gap-6">
-            {currentItems.map((donation) => {
+            {currentItems.map((proposal) => {
               const progress =
-                (donation.currentAmount / donation.totalAmount) * 100;
+                (proposal?.currentAmount / proposal?.totalAmount) * 100;
               return (
                 <div
-                  key={donation.id}
+                  key={proposal?.id}
                   className="flex flex-col w-full sm:w-1/2 md:w-1/3 lg:w-1/4 border border-gray-200 rounded-md shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300"
                 >
                   <div className="relative">
                     <Image
-                      src={donation.image}
-                      alt={donation.title}
+                      src={proposal?.image}
+                      alt={proposal?.title}
                       width={400}
                       height={300}
                       className="w-full h-48 object-cover"
@@ -109,14 +109,14 @@ const OpenDonationsList = () => {
                   <div className="p-4 flex flex-col justify-between flex-grow">
                     <div>
                       <div className="flex justify-between items-center text-gray-500 text-xs mb-2">
-                        <span>{donation.date}</span>
-                        <span>{donation.donationsCount} donations</span>
+                        <span>{proposal?.date}</span>
+                        <span>{proposal?.donationsCount} donations</span>
                       </div>
                       <h3 className="text-md font-bold text-gray-800 mb-2">
-                        {donation.title}
+                        {proposal?.title}
                       </h3>
                       <p className="text-xs text-gray-500 mb-4 h-16 overflow-hidden">
-                        {donation.description}
+                        {proposal?.description}
                       </p>
                       <div className="mb-4">
                         <div className="h-[3px] rounded-full bg-gray-200">
@@ -126,7 +126,7 @@ const OpenDonationsList = () => {
                           ></div>
                         </div>
                         <div className="flex justify-between text-sm text-gray-500 mt-1">
-                          <span>${donation.currentAmount.toFixed(2)}</span>
+                          <span>${proposal?.currentAmount.toFixed(2)}</span>
                           <span>{progress.toFixed(0)}%</span>
                         </div>
                       </div>
@@ -182,7 +182,7 @@ const OpenDonationsList = () => {
           </nav>
           <div>
             <Link
-              href={"/donations"}
+              href={"/proposals"}
               className="text-teal-500 text-sm flex flex-row items-center gap-2"
             >
               See all <FaArrowRightLong size={15} />
@@ -194,4 +194,4 @@ const OpenDonationsList = () => {
   );
 };
 
-export default OpenDonationsList;
+export default OpenProposalsList;

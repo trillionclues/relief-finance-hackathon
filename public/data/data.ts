@@ -1,4 +1,4 @@
-export const donations = [
+export const proposals = [
   {
     id: 1,
     title: "Flood in Lamboa",

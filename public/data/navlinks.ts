@@ -1,7 +1,7 @@
 export const links = [
   { href: "#", text: "Home" },
-  { href: "#", text: "Charity" },
-  { href: "#", text: "Disaster" },
-  { href: "#", text: "Event" },
-  { href: "#", text: "Open Data" },
+  { href: "/proposals", text: "Proposals" },
+  { href: "#metrics", text: "Metrics" },
+  { href: "#partners", text: "Partners" },
+  { href: "#faq", text: "FAQ" },
 ];

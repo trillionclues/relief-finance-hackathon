@@ -4,7 +4,7 @@ import { partners } from "@/public/data/partners";
 
 export const PartnersOverview = () => {
   return (
-    <section className="py-12 px-6 md:px-36 bg-gray-50">
+    <section className="py-12 px-6 md:px-36 bg-gray-50" id="partners">
       <div className="max-w-7xl mx-auto">
         <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">
           Our Partners
