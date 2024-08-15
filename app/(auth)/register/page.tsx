@@ -1,13 +1,9 @@
-"use client";
-import React, { useContext } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { AuthContext } from "@/context/AuthContext";
 
-const GetStarted = () => {
-  const { loginWithGoogle } = useContext(AuthContext);
-
+const CreateAccount = () => {
   return (
     <div
       className="relative bg-cover bg-center min-h-screen flex items-center justify-center"
@@ -29,20 +25,19 @@ const GetStarted = () => {
           </Link>
         </div>
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-          Get Started
+          Create Account
         </h2>
         <button
           type="button"
           className="flex items-center justify-center w-full py-2 px-4 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
-          onClick={loginWithGoogle}
         >
           <FcGoogle className="mr-2" size={24} />
-          Sign in with Google
+          Sign up with Google
         </button>
         <p className="text-center text-gray-600 mt-6">
-          Don’t have an account?{" "}
-          <Link href="/register" className="text-teal-500">
-            Sign Up
+          Already have an account?{" "}
+          <Link href="/login" className="text-teal-500">
+            Log In
           </Link>
         </p>
       </div>
@@ -50,4 +45,4 @@ const GetStarted = () => {
   );
 };
 
-export default GetStarted;
+export default CreateAccount;
