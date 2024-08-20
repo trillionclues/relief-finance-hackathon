@@ -1,64 +1,40 @@
 import React from "react";
-import Image from "next/image";
 
 const MetricsOverview = () => {
   return (
-    <section className="py-12 px-6 md:px-36" id="metrics">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start justify-between">
-        <div className="md:w-3/5 mb-8 md:mb-0">
-          <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">
-            Humanitarian Mission
-          </h3>
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Help the Affected by{" "}
-            <span className="text-teal-500">Disasters</span>,{" "}
-            <span className="text-teal-500">Shortages</span>, and{" "}
-            <span className="text-teal-500">Emergency Relief</span>.
-          </h2>
-          <div className="space-y-4 text-sm text-gray-600 flex flex-col md:flex-row items-center justify-between md:gap-6">
-            <div className="flex flex-col items-start gap-2">
-              <p>
-                <span className="text-teal-500">22,690</span> Proposals have
-                been verified and still active.
-              </p>
-              <p>
-                <span className="text-teal-500">6,450</span> Proposals have been
-                distributed to disaster-affected areas.
-              </p>
-              <p>
-                <span className="text-teal-500">1.4 Billion</span> Total funds
-                raised so far.
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-2">
-              <p>
-                <span className="text-teal-500">10,517</span> Proposals have
-                been distributed to the needy.
-              </p>
-              <p>
-                <span className="text-teal-500">5,058</span> Proposals were
-                distributed to social foundations and orphanages.
-              </p>
-              <p>
-                <span className="text-teal-500">4,803</span> Proposals have been
-                distributed to people in emergency situations.
-              </p>
-            </div>
-          </div>
-        </div>
+    <section
+      className="py-24 px-6 md:px-36 bg-gray-900 text-white"
+      id="metrics"
+    >
+      <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center space-y-8">
+        <h3 className="text-sm font-semibold text-teal-400 uppercase tracking-wider">
+          Humanitarian Mission
+        </h3>
+        <h2 className="text-3xl md:text-4xl font-extrabold leading-snug pb-8">
+          Help the Affected by{" "}
+          <span className="text-yellow-400">Disasters</span>,{" "}
+          <span className="text-yellow-400">Shortages</span>, and{" "}
+          <span className="text-yellow-400">Emergency Relief</span>.
+        </h2>
 
-        <div className="flex justify-center md:justify-end">
-          <div className="relative w-full max-w-sm md:max-w-md">
-            <Image
-              src="/images/elipses.png"
-              alt="Humanitarian aid"
-              className="rounded-full object-cover"
-              width={270}
-              height={270}
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-24 h-24 rounded-full border-4 border-teal-500 opacity-50"></div>
-            </div>
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <p className="text-5xl font-bold text-yellow-400 animate-pulse">
+              2,085,823
+            </p>
+            <p className="mt-2 text-xl">Total Beneficiaries</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <p className="text-5xl font-bold text-yellow-400 animate-pulse">
+              9,407
+            </p>
+            <p className="mt-2 text-xl">Amount Donations</p>
+          </div>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <p className="text-5xl font-bold text-yellow-400 animate-pulse">
+              1,587 BTC
+            </p>
+            <p className="mt-2 text-xl">Bitcoin Donations Raised</p>
           </div>
         </div>
       </div>

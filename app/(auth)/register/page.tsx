@@ -1,9 +1,13 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import { AuthContext } from "@/context/AuthContext";
 
 const CreateAccount = () => {
+  const { loginWithGoogle } = useContext(AuthContext);
+
   return (
     <div
       className="relative bg-cover bg-center min-h-screen flex items-center justify-center"
@@ -30,6 +34,7 @@ const CreateAccount = () => {
         <button
           type="button"
           className="flex items-center justify-center w-full py-2 px-4 bg-white border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          onClick={loginWithGoogle}
         >
           <FcGoogle className="mr-2" size={24} />
           Sign up with Google

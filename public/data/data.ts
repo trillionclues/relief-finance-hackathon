@@ -10,6 +10,8 @@ export const proposals = [
     currentAmount: 1500,
     totalAmount: 5000,
     category: "Disaster",
+    owner: "ANA YAMAMOTO",
+    address: "0xbb AC23 43af 98fg",
   },
   {
     id: 2,
@@ -22,6 +24,8 @@ export const proposals = [
     currentAmount: 3000,
     totalAmount: 10000,
     category: "Education",
+    owner: "ANA YAMAMOTO",
+    address: "0xbb AC23 43af 98fg",
   },
   {
     id: 3,
@@ -34,6 +38,8 @@ export const proposals = [
     currentAmount: 3420,
     totalAmount: 4000,
     category: "Children",
+    owner: "ANA YAMAMOTO",
+    address: "0xbb AC23 43af 98fg",
   },
   {
     id: 4,
@@ -46,6 +52,8 @@ export const proposals = [
     currentAmount: 1290,
     totalAmount: 1500,
     category: "Animal",
+    owner: "ANA YAMAMOTO",
+    address: "0xbb AC23 43af 98fg",
   },
   {
     id: 5,
@@ -58,6 +66,8 @@ export const proposals = [
     currentAmount: 102,
     totalAmount: 876,
     category: "War",
+    owner: "ANA YAMAMOTO",
+    address: "0xbb AC23 43af 98fg",
   },
   {
     id: 6,
@@ -70,5 +80,32 @@ export const proposals = [
     currentAmount: 234,
     totalAmount: 1000,
     category: "Pandemic",
+    owner: "ANA YAMAMOTO",
+    address: "0xbb AC23 43af 98fg",
   },
+];
+
+export const activityTimeline = [
+  {
+    id: 1,
+    user: "Demi Wilkinson",
+    action: "Funded Help my Friends with...",
+    amount: "+$0.32 ETH",
+    userImage: "/path-to-user-image.jpg",
+  },
+  {
+    id: 2,
+    user: "Demi Wilkinson",
+    action: "Funded Help my Friends with...",
+    amount: "+$0.32 ETH",
+    userImage: "/path-to-user-image.jpg",
+  },
+  {
+    id: 3,
+    user: "Demi Wilkinson",
+    action: "Funded Help my Friends with...",
+    amount: "-$0.32 ETH",
+    userImage: "/path-to-user-image.jpg",
+  },
+  // More activity...
 ];

@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cookies-next": "^4.2.1",
     "firebase": "^10.13.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
@@ -17,6 +19,7 @@
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

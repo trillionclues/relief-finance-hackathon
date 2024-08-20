@@ -1,13 +1,15 @@
 "use client";
+import { AuthContext } from "@/context/AuthContext";
 import { links } from "@/public/data/navlinks";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsPlayCircle } from "react-icons/bs";
 import { FiMenu, FiX } from "react-icons/fi";
 
 export const HeroPage = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const { currentUser, logout } = useContext(AuthContext);
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
@@ -50,11 +52,20 @@ export const HeroPage = () => {
                 {link.text}
               </Link>
             ))}
-            <Link href="/login">
-              <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs">
-                Get Started
+            {currentUser ? (
+              <button
+                className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs"
+                onClick={logout}
+              >
+                Logout
               </button>
-            </Link>
+            ) : (
+              <Link href="/login">
+                <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs">
+                  Get Started
+                </button>
+              </Link>
+            )}
           </div>
         </nav>
 

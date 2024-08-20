@@ -38,6 +38,20 @@ const OverviewSection = () => {
               Learn more about our technology <FaArrowRightLong size={15} />
             </Link>
           </div>
+          <div className="flex justify-center md:justify-end">
+            <div className="relative w-full max-w-sm md:max-w-md">
+              <Image
+                src="/images/elipses.png"
+                alt="Humanitarian aid"
+                className="rounded-full object-cover"
+                width={270}
+                height={270}
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full border-4 border-teal-500 opacity-50"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* FAQ section */}

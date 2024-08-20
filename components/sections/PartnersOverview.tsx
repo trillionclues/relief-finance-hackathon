@@ -1,10 +1,36 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { partners } from "@/public/data/partners";
 
 export const PartnersOverview = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
   return (
-    <section className="py-12 px-6 md:px-36 bg-gray-50" id="partners">
+    <section ref={ref} className="py-12 px-6 md:px-36 bg-gray-50" id="partners">
       <div className="max-w-7xl mx-auto">
         <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">
           Our Partners
@@ -18,7 +44,11 @@ export const PartnersOverview = () => {
           {partners.map((partner, index) => (
             <div
               key={index}
-              className="flex justify-center items-center p-4 bg-white shadow-sm rounded-lg"
+              className={`partner-card flex justify-center items-center p-4 bg-white shadow-sm rounded-lg transition-transform duration-500 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
             >
               <Image
                 src={partner.src}
