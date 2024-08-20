@@ -8,7 +8,8 @@ import ProposalItem from "../listItems/ProposalItem";
 import { ProposalItemTypes } from "@/types/ProposalItemTypes";
 
 const OpenProposalsList = () => {
-  const [proposalData, setProposalData] = useState<ProposalItemTypes[]>([]);
+  const [proposalData, setProposalData] =
+    useState<ProposalItemTypes[]>(proposals);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);

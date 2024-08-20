@@ -7,9 +7,6 @@ const MetricsOverview = () => {
       id="metrics"
     >
       <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center space-y-8">
-        <h3 className="text-sm font-semibold text-teal-400 uppercase tracking-wider">
-          Humanitarian Mission
-        </h3>
         <h2 className="text-3xl md:text-4xl font-extrabold leading-snug pb-8">
           Help the Affected by{" "}
           <span className="text-yellow-400">Disasters</span>,{" "}
