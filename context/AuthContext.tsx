@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await signOut(auth);
       deleteCookie("auth_token", { path: "/" });
       setCurrentUser(null);
-      toast.success("You've been logged out successfully!");
+      toast.success("You're logged out, see ya!");
       router.push("/login");
     } catch (error: any) {
       toast.error("Error during logout: " + error.message);

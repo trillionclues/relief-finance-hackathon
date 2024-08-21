@@ -1,5 +1,6 @@
 import { ProposalItemTypes } from "@/types/ProposalItemTypes";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { FiBookmark } from "react-icons/fi";
 
@@ -52,9 +53,14 @@ const ProposalItem = ({ proposal, progress }: ProposalItemProps) => {
           <div className="flex items-center justify-center px-2 py-[6px] border border-teal-500 rounded-sm bg-transparent hover:bg-teal-500 text-teal-500 hover:text-white cursor-pointer">
             <FiBookmark size={20} />
           </div>
-          <button className="flex-1 ml-2 px-4 py-2 border border-teal-500 rounded-sm text-black bg-transparent hover:bg-teal-500 hover:text-white text-xs">
-            Donate now
-          </button>
+          <Link
+            href={`/proposals/${proposal.id}`}
+            className="flex w-full justify-end"
+          >
+            <button className="flex-1 ml-2 px-4 py-2 border border-teal-500 rounded-sm text-black bg-transparent hover:bg-teal-500 hover:text-white text-xs">
+              Donate now
+            </button>
+          </Link>
         </div>
       </div>
     </div>

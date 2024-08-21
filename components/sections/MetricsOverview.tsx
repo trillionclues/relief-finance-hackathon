@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import CountUp from "react-countup";
 
 const MetricsOverview = () => {
   return (
@@ -17,19 +19,19 @@ const MetricsOverview = () => {
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <p className="text-5xl font-bold text-yellow-400 animate-pulse">
-              2,085,823
+              <CountUp end={2085823} duration={2.5} separator="," />
             </p>
             <p className="mt-2 text-xl">Total Beneficiaries</p>
           </div>
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <p className="text-5xl font-bold text-yellow-400 animate-pulse">
-              9,407
+              <CountUp end={9407} duration={2.5} separator="," />
             </p>
             <p className="mt-2 text-xl">Amount Donations</p>
           </div>
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <p className="text-5xl font-bold text-yellow-400 animate-pulse">
-              1,587 BTC
+              <CountUp end={1587} duration={2.5} separator="," suffix=" BTC" />
             </p>
             <p className="mt-2 text-xl">Bitcoin Donations Raised</p>
           </div>
