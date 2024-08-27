@@ -1,17 +1,26 @@
 "use client";
 import React, { useContext, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
 import { activityTimeline, proposals } from "@/public/data/data";
 import DashboardNav from "@/components/home/DashboardNav";
+import { useAccount } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import ProposalModal from "@/components/modal/ProposalModal";
 
 const Dashboard = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
+  const { isConnected } = useAccount();
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
+  };
+
+  const handleCreateProposal = (proposalData: any) => {
+    console.log("New Proposal Data:", proposalData);
+    // Add your logic to handle the new proposal creation
   };
 
   return (
@@ -22,9 +31,16 @@ const Dashboard = () => {
         <div className="flex-1 lg:w-9/12">
           <div className="flex flex-row justify-between items-center mb-4">
             <h1 className="text-lg font-semibold mb-4">My Campaigns</h1>
-            <button className="bg-teal-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-teal-600 text-sm">
-              Create Proposal
-            </button>
+            {isConnected && currentUser ? (
+              <button
+                className="bg-teal-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-teal-600 text-sm"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Create Proposal
+              </button>
+            ) : (
+              <ConnectButton label="Connect Wallet" />
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {proposals.map((campaign) => {
@@ -96,6 +112,12 @@ const Dashboard = () => {
           </ul>
         </div>
       </div>
+
+      <ProposalModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCreateProposal}
+      />
     </div>
   );
 };

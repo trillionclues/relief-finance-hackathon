@@ -49,7 +49,7 @@ const FooterSection = () => {
           <p className="mb-2">
             Eti Osa No. 18,
             <br />
-            Aja Administrasi, Lagos, Nigeria.
+            Ajah Admiralty, Lagos, Nigeria.
             <br />
             ZIP: 10000
           </p>

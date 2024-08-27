@@ -90,7 +90,7 @@ const OpenProposalsList = () => {
           </div>
         ) : currentItems.length === 0 ? (
           <p className="text-center text-gray-500">
-            No donations available for the selected category.
+            No proposals available for the selected category.
           </p>
         ) : (
           <div className="flex flex-wrap justify-center gap-6">

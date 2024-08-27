@@ -29,19 +29,19 @@ const DashboardNav = () => {
             <div className="hidden md:block ml-10 md:mt-1">
               <div className="flex items-baseline space-x-4">
                 <Link
-                  href="#"
+                  href="/"
                   className="text-gray-600 hover:text-gray-900 text-xs"
                 >
                   Home
                 </Link>
                 <Link
-                  href="#"
+                  href="/proposals"
                   className="text-gray-600 hover:text-gray-900 text-xs"
                 >
                   Campaigns
                 </Link>
                 <Link
-                  href="#"
+                  href="/profile"
                   className="text-gray-600 hover:text-gray-900 text-xs"
                 >
                   Profile

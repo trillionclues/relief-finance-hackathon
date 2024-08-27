@@ -269,6 +269,51 @@ export const proposals = [
       },
     ],
   },
+  {
+    id: 7,
+    title: "Lidu Land Drought",
+    date: "June 27, 2021",
+    description:
+      "The people of Tarah Lidu are currently suffering from drought, help them get clean water!",
+    paraText:
+      "The people of Tarah Lidu are currently suffering from drought, help them get clean water. The people of Tarah Lidu are currently suffering from drought, help them get clean water. The people of Tarah Lidu are currently suffering from drought, help them get clean water.",
+    image: "/images/drought.png",
+    donationsCount: 748,
+    currentAmount: 234,
+    totalAmount: 1000,
+    category: "Pandemic",
+    owner: "ANA YAMAMOTO",
+    address: "0xbb AC23 43af 98fg",
+    supports: [
+      {
+        id: 1,
+        name: "ANA YAMAMOTO",
+        amount: 1000,
+        address: "0xbb AC23 43af 98fg",
+        timeAgo: "10 minutes ago",
+        message: "Thank you for your support!",
+        avatar: "/images/elipses.png",
+      },
+      {
+        id: 2,
+        name: "ANA YAMAMOTO",
+        amount: 1000,
+        address: "0xbb AC23 43af 98fg",
+        timeAgo: "30 minutes ago",
+        message: "Thank you for your support!",
+        avatar: "/images/elipses.png",
+      },
+      {
+        id: 3,
+        name: "ANA YAMAMOTO",
+        amount: 1000,
+        address: "0xbb AC23 43af 98fg",
+        timeAgo: "60 minutes ago",
+        message: "Thank you for your support!",
+        avatar: "/images/elipses.png",
+      },
+    ],
+  },
 ];
 
 export const activityTimeline = [

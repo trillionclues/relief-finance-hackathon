@@ -11,14 +11,14 @@ import {
   inMemoryPersistence,
   signOut,
 } from "firebase/auth";
-import app from "@/utils/firebaseConfig";
+import app from "@/lib/utils/firebaseConfig";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-setPersistence(auth, inMemoryPersistence);
+// setPersistence(auth, inMemoryPersistence);
 
 interface AuthContextProps {
   currentUser: User | null;

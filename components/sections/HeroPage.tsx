@@ -10,9 +10,14 @@ import { FiMenu, FiX } from "react-icons/fi";
 export const HeroPage = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { currentUser, logout } = useContext(AuthContext);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -53,12 +58,30 @@ export const HeroPage = () => {
               </Link>
             ))}
             {currentUser ? (
-              <button
-                className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs"
-                onClick={logout}
-              >
-                Logout
-              </button>
+              <div className="relative">
+                <button
+                  className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs"
+                  onClick={toggleDropdown}
+                >
+                  Account
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg">
+                    <Link
+                      href="/dashboard"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link href="/login">
                 <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs">
@@ -88,11 +111,38 @@ export const HeroPage = () => {
                 </Link>
               </li>
             ))}
-            <Link href="/login">
-              <button className="bg-teal-500 hover:bg-teal-600 text-white px-10 py-4 rounded-full text-xs">
-                Get Started
-              </button>
-            </Link>
+            {currentUser ? (
+              <div className="relative">
+                <button
+                  className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-full text-xs"
+                  onClick={toggleDropdown}
+                >
+                  Account
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg">
+                    <Link
+                      href="/dashboard"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link href="/login">
+                <button className="bg-teal-500 hover:bg-teal-600 text-white px-10 py-4 rounded-full text-xs">
+                  Get Started
+                </button>
+              </Link>
+            )}
           </ul>
         </div>
 
@@ -101,7 +151,7 @@ export const HeroPage = () => {
             <h1 className="text-4xl sm:text-5xl font-bold mb-4">
               <span className="text-[#13ADB7]">Happiness {""}</span>comes from{" "}
               {""}
-              <span className="text-[#13ADB7]">your action</span>.
+              <span className="text-[#13ADB7]">your actions</span>.
             </h1>
             <p className="mb-8 text-xs text-[#E9ECEB]">
               Be a part of the breakthrough and make someone's dream come true.

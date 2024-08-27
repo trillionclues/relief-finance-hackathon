@@ -77,18 +77,17 @@ const ProposalDetails = () => {
               <div className="flex space-x-4">
                 {currentUser?.photoURL ? (
                   <Image
-                    src={currentUser?.photoURL}
-                    alt="Organizer avatar"
-                    width={48}
-                    height={48}
-                    className="rounded-full"
+                    src={currentUser.photoURL}
+                    width={50}
+                    height={50}
+                    alt="User Avatar"
+                    className="h-12 w-12 rounded-full"
                   />
                 ) : (
                   <FaUserCircle size={48} className="text-gray-500" />
                 )}
                 <div>
                   <h3 className="text-md font-semibold">{"John Doe"}</h3>
-                  <p className="text-xs text-gray-500">{"Lagos"}</p>
                   <p className="text-xs text-gray-500">Organizer</p>
                 </div>
               </div>
