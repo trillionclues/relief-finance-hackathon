@@ -3,8 +3,18 @@ import React from "react";
 import { ethers } from "ethers";
 import { toast } from "react-toastify";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useContractRead, useContractWrite } from "wagmi";
+import { ABI } from "@/abi/relief-finance";
 
 const FundCampaign = () => {
+  // const provider = new ethers.BrowserProvider(window.ethereum);
+  // const signer = provider.getSigner();
+  // const contract = new ethers.Contract(
+  //   process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || '',
+  //   ABI,
+  //   signer
+  // );
+
   return (
     <div className="mt-8 bg-white p-6 rounded-lg shadow-md border border-gray-200">
       <h2 className="text-xl font-semibold mb-4">💪 Fund this campaign</h2>
