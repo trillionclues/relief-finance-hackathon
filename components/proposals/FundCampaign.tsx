@@ -1,10 +1,6 @@
 "use client";
 import React from "react";
-import { ethers } from "ethers";
-import { toast } from "react-toastify";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useContractRead, useContractWrite } from "wagmi";
-import { ABI } from "@/abi/relief-finance";
 
 const FundCampaign = () => {
   // const provider = new ethers.BrowserProvider(window.ethereum);

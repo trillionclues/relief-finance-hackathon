@@ -1,24 +1,64 @@
 "use client";
 
 import "@rainbow-me/rainbowkit/styles.css";
-
 import { type ReactNode } from "react";
-import {
-  getDefaultConfig,
-  lightTheme,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
+import { lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi";
+import { createConfig, http, WagmiProvider } from "wagmi";
 
-import { chains, transports } from "@/config/networks";
+import {
+  mainnet,
+  sepolia,
+  polygonAmoy,
+  polygon,
+  optimism,
+  arbitrum,
+  zora,
+  goerli,
+  arbitrumSepolia,
+  base,
+  baseSepolia,
+  gnosis,
+  gnosisChiado,
+  hardhat,
+} from "wagmi/chains";
+import { injected } from "wagmi/connectors";
 
-const wagmiConfig = getDefaultConfig({
-  appName: "Relief Finance",
-  projectId: "YOUR_PROJECT_ID",
-  chains,
-  transports,
+export const wagmiConfig = createConfig({
   ssr: true,
+  connectors: [injected()],
+  chains: [
+    mainnet,
+    sepolia,
+    polygonAmoy,
+    polygon,
+    optimism,
+    arbitrum,
+    zora,
+    goerli,
+    arbitrumSepolia,
+    base,
+    baseSepolia,
+    gnosis,
+    gnosisChiado,
+    hardhat,
+  ],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+    [polygonAmoy.id]: http(),
+    [polygon.id]: http(),
+    [optimism.id]: http(),
+    [arbitrum.id]: http(),
+    [zora.id]: http(),
+    [goerli.id]: http(),
+    [arbitrumSepolia.id]: http(),
+    [base.id]: http(),
+    [baseSepolia.id]: http(),
+    [gnosis.id]: http(),
+    [gnosisChiado.id]: http(),
+    [hardhat.id]: http(),
+  },
 });
 
 const queryClient = new QueryClient();

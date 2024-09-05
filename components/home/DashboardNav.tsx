@@ -41,7 +41,7 @@ const DashboardNav = () => {
                   Campaigns
                 </Link>
                 <Link
-                  href="/profile"
+                  href="/dashboard"
                   className="text-gray-600 hover:text-gray-900 text-xs"
                 >
                   Profile
