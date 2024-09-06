@@ -1,5 +1,5 @@
 export const partners = [
-  { src: "/images/hello-wallet.png", alt: "HelloWallet" },
+  { src: "/images/xend-finance.jpg", alt: "Xend Finance" },
   { src: "/images/polkadot.png", alt: "Polkadot Network" },
   { src: "/images/chainlink.png", alt: "Chainlink" },
   { src: "/images/filecoin.png", alt: "Filecoin" },

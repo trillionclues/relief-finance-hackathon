@@ -6,6 +6,8 @@ import { categories } from "@/public/data/categories";
 import { proposals } from "@/public/data/data";
 import ProposalItem from "../listItems/ProposalItem";
 import { ProposalItemTypes } from "@/types/ProposalItemTypes";
+import { useReadContract } from "wagmi";
+import { ABI } from "@/abi/relief-finance";
 
 const OpenProposalsList = () => {
   const [proposalData, setProposalData] =
@@ -16,6 +18,22 @@ const OpenProposalsList = () => {
   const [loading, setLoading] = useState(true);
   const itemsPerPage = 6;
 
+  // // Fetch all created campaigns
+  // const {
+  //   data: proposalList,
+  //   refetch: fetchProposals,
+  //   isLoading,
+  //   isError: isReadError,
+  //   isRefetching,
+  // } = useReadContract({
+  //   abi: ABI,
+  //   functionName: "campaigns",
+  // });
+
+  // console.log("====================================");
+  // console.log(proposalList);
+  // console.log(proposalData);
+  // console.log("====================================");
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);

@@ -44,12 +44,17 @@ export const PartnersOverview = () => {
           {partners.map((partner, index) => (
             <div
               key={index}
-              className={`partner-card flex justify-center items-center p-4 bg-white shadow-sm rounded-lg transition-transform duration-500 ${
+              className={`partner-card relative flex justify-center items-center p-4 bg-white shadow-sm rounded-lg transition-transform duration-500 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
             >
+              {partner.alt === "Xend Finance" && (
+                <div className="absolute top-0 left-0 transform -rotate-35 bg-teal-500 text-white px-1 py-1 text-[7px] font-bold">
+                  Top Partner
+                </div>
+              )}
               <Image
                 src={partner.src}
                 alt={partner.alt}
@@ -59,9 +64,6 @@ export const PartnersOverview = () => {
               />
             </div>
           ))}
-          <div className="flex justify-center items-center p-4 bg-white shadow-sm rounded-lg">
-            <span className="text-gray-500 font-semibold">and 42 more</span>
-          </div>
         </div>
         <div className="mt-8 p-6 bg-teal-500 text-white rounded-lg flex flex-col md:flex-row md:items-center">
           <div className="mb-4 md:mb-0 md:mr-8">
