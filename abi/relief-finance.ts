@@ -107,6 +107,80 @@ export const ABI = [
     inputs: [
       {
         internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "allCampaigns",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "address payable",
+        name: "creator",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "physicalAddress",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "goal",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amountRaised",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isCompleted",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "isApproved",
+        type: "bool",
+      },
+      {
+        internalType: "string",
+        name: "category",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "createdAt",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "_id",
         type: "uint256",
       },
@@ -384,6 +458,81 @@ export const ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getAllCampaigns",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "address payable",
+            name: "creator",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "physicalAddress",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "goal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadline",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "amountRaised",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isCompleted",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isApproved",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "category",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ReliefFinance.Campaign[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -552,6 +701,81 @@ export const ABI = [
         internalType: "address[]",
         name: "",
         type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getLatestCampaigns",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "address payable",
+            name: "creator",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "physicalAddress",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "goal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadline",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "amountRaised",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isCompleted",
+            type: "bool",
+          },
+          {
+            internalType: "bool",
+            name: "isApproved",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "category",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ReliefFinance.Campaign[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",

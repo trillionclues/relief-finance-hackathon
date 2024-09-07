@@ -18,22 +18,23 @@ const OpenProposalsList = () => {
   const [loading, setLoading] = useState(true);
   const itemsPerPage = 6;
 
-  // // Fetch all created campaigns
-  // const {
-  //   data: proposalList,
-  //   refetch: fetchProposals,
-  //   isLoading,
-  //   isError: isReadError,
-  //   isRefetching,
-  // } = useReadContract({
-  //   abi: ABI,
-  //   functionName: "campaigns",
-  // });
+  // Fetch all created campaigns
+  const {
+    data: proposalList,
+    refetch: fetchProposals,
+    isLoading,
+    isError: isReadError,
+    isRefetching,
+  } = useReadContract({
+    abi: ABI,
+    functionName: "getAllCampaigns",
+    address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
+  });
 
-  // console.log("====================================");
-  // console.log(proposalList);
-  // console.log(proposalData);
-  // console.log("====================================");
+  console.log("====================================");
+  console.log(proposalList);
+  console.log("====================================");
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
@@ -43,7 +44,7 @@ const OpenProposalsList = () => {
       clearTimeout(timeout);
       setProposalData(proposals);
     };
-  }, []);
+  }, [proposalList]);
 
   const filteredDonations = proposalData.filter((proposal) => {
     const matchesQuery = proposal.title

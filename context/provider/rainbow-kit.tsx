@@ -6,61 +6,21 @@ import { lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createConfig, http, WagmiProvider } from "wagmi";
 
-import {
-  mainnet,
-  sepolia,
-  polygonAmoy,
-  polygon,
-  optimism,
-  arbitrum,
-  zora,
-  goerli,
-  arbitrumSepolia,
-  base,
-  baseSepolia,
-  gnosis,
-  gnosisChiado,
-  hardhat,
-} from "wagmi/chains";
+import { mainnet, sepolia, polygonAmoy, polygon } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
+export const CONTRACT_ADDRESS = "0xD2261182E1DD8928Bdea08d7AFeD0855d3BEE8c2";
 
 export const wagmiConfig = createConfig({
   ssr: true,
   connectors: [injected()],
-  chains: [
-    mainnet,
-    sepolia,
-    polygonAmoy,
-    polygon,
-    optimism,
-    arbitrum,
-    zora,
-    goerli,
-    arbitrumSepolia,
-    base,
-    baseSepolia,
-    gnosis,
-    gnosisChiado,
-    hardhat,
-  ],
+  chains: [mainnet, sepolia, polygonAmoy, polygon],
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),
-    [polygonAmoy.id]: http(),
+    [polygonAmoy.id]: http("https://rpc-amoy.polygon.technology"),
     [polygon.id]: http(),
-    [optimism.id]: http(),
-    [arbitrum.id]: http(),
-    [zora.id]: http(),
-    [goerli.id]: http(),
-    [arbitrumSepolia.id]: http(),
-    [base.id]: http(),
-    [baseSepolia.id]: http(),
-    [gnosis.id]: http(),
-    [gnosisChiado.id]: http(),
-    [hardhat.id]: http(),
   },
 });
-
 const queryClient = new QueryClient();
 
 export function RainbowKit({ children }: { children: ReactNode }) {

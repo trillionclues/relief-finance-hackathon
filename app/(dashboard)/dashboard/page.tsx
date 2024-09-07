@@ -12,6 +12,7 @@ import { ABI } from "@/abi/relief-finance";
 import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 import { MdCampaign } from "react-icons/md";
 import { toast } from "react-toastify";
+import { CONTRACT_ADDRESS } from "@/context/provider/rainbow-kit";
 
 const Dashboard = () => {
   const [campaigns, setCampaigns] = useState<GetAllCampaigns[]>([]);
@@ -19,7 +20,42 @@ const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { isConnected, address } = useAccount();
-  const CONTRACT_ADDRESS = `0xa6e24ea4794bbe2dec65036d480bd4821a861df4`;
+
+  // create campaign
+  const {
+    writeContract: createCampaign,
+    data,
+    isError,
+    error,
+    isPending: isCreating,
+    isSuccess,
+  } = useWriteContract();
+
+  const handleCreateProposal = (createProposalData: CreateProposalFormData) => {
+    createCampaign({
+      abi: ABI,
+      address: CONTRACT_ADDRESS,
+      functionName: "createCampaign",
+      args: [
+        createProposalData.title,
+        createProposalData.description,
+        createProposalData.physicalAddress,
+        createProposalData.goal,
+        createProposalData.duration,
+        createProposalData.category,
+      ],
+    });
+    console.log("====================================");
+    console.log(createProposalData);
+    console.log("====================================");
+    fetchProposals();
+    setIsModalOpen(false);
+    if (isSuccess) {
+      toast.success("Proposal created successfully");
+    } else {
+      toast.error("Proposal creation failed");
+    }
+  };
 
   // Fetch campaigns by creator
   const {
@@ -56,41 +92,6 @@ const Dashboard = () => {
       setCampaigns(campaignsConverted);
     }
   }, [proposalList]);
-
-  const {
-    writeContract: createCampaign,
-    data,
-    isError,
-    isPending: isCreating,
-    isSuccess,
-  } = useWriteContract();
-
-  const handleCreateProposal = (createProposalData: CreateProposalFormData) => {
-    createCampaign({
-      abi: ABI,
-      address: CONTRACT_ADDRESS,
-      functionName: "createCampaign",
-      args: [
-        createProposalData.title,
-        createProposalData.description,
-        createProposalData.physicalAddress,
-        createProposalData.goal,
-        createProposalData.duration,
-        createProposalData.category,
-      ],
-    });
-    fetchProposals();
-    setIsModalOpen(false);
-    if (isSuccess) {
-      toast.success("Proposal created successfully");
-    } else {
-      toast.error("Proposal creation failed");
-    }
-  };
-
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -208,5 +209,4 @@ const Dashboard = () => {
     </div>
   );
 };
-
 export default Dashboard;
