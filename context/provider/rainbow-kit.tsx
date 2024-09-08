@@ -17,7 +17,7 @@ export const wagmiConfig = createConfig({
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),
-    [polygonAmoy.id]: http("https://rpc-amoy.polygon.technology"),
+    [polygonAmoy.id]: http(),
     [polygon.id]: http(),
   },
 });
