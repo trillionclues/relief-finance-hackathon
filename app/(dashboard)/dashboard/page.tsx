@@ -12,11 +12,10 @@ import { ABI } from "@/abi/relief-finance";
 import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 import { MdCampaign } from "react-icons/md";
 import { toast } from "react-toastify";
-import { CONTRACT_ADDRESS, RWA_ADDRESS } from "@/context/provider/rainbow-kit";
+import { RWA_ADDRESS } from "@/context/provider/rainbow-kit";
 
 const Dashboard = () => {
   const [campaigns, setCampaigns] = useState<GetAllCampaigns[]>([]);
-  const [isNavOpen, setIsNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { isConnected, address } = useAccount();
@@ -46,55 +45,52 @@ const Dashboard = () => {
         createProposalData.category,
       ],
     });
-    // console.log("====================================");
-    // console.log(createProposalData);
-    // console.log("====================================");
-    fetchProposals();
+
     setIsModalOpen(false);
-    if (isSuccess) {
-      toast.success("Proposal created successfully");
+    if (isCreating) {
+      toast.success("Complete campaign creation in the Explorer...");
     } else {
-      toast.error("Proposal creation failed");
+      toast.error("Campaign creation failed");
     }
   };
-  useEffect(() => {
-    fetchProposals();
-  });
+
   // Fetch campaigns by creator
   const {
-    data: proposalList,
-    refetch: fetchProposals,
+    data: campaign,
+    refetch,
     isLoading,
-    isError: isReadError,
     isRefetching,
   } = useReadContract({
     abi: ABI,
-    address: RWA_ADDRESS,
     functionName: "getCampaignsByCreator",
     args: [address],
+    address: RWA_ADDRESS,
+    chainId: 42421,
   });
-  console.log("list", proposalList);
+
+  console.log("list", campaign);
+
   // Convert BigInt to number
   useEffect(() => {
-    if (proposalList && Array.isArray(proposalList)) {
-      const campaignsConverted = proposalList.map((campaign: any) => ({
-        amountRaised: Number(campaign.amountRaised),
-        category: campaign.category,
-        createdAt: Number(campaign.createdAt),
+    if (campaign && Array.isArray(campaign)) {
+      const campaignsConverted = campaign.map((campaign: any) => ({
+        amountRaised: Number(campaign?.amountRaised),
+        category: campaign?.category,
+        createdAt: new Date(Number(campaign?.createdAt) * 1000),
         creator: campaign.creator,
-        deadline: Number(campaign.deadline),
-        description: campaign.description,
-        goal: Number(campaign.goal),
-        id: Number(campaign.id),
-        isApproved: campaign.isApproved,
-        isCompleted: campaign.isCompleted,
-        physicalAddress: campaign.physicalAddress,
-        title: campaign.title,
+        deadline: new Date(Number(campaign?.deadline) * 1000),
+        description: campaign?.description,
+        goal: Number(campaign?.goal),
+        id: Number(campaign?.id),
+        isApproved: campaign?.isApproved,
+        isCompleted: campaign?.isCompleted,
+        physicalAddress: campaign?.physicalAddress,
+        title: campaign?.title,
       }));
 
       setCampaigns(campaignsConverted);
     }
-  }, [proposalList]);
+  }, [campaign]);
 
   return (
     <div className="flex flex-col min-h-screen">

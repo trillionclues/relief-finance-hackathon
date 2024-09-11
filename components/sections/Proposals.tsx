@@ -1,33 +1,27 @@
 "use client";
-//@ts-nocheck
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { categories } from "@/public/data/categories";
-import { proposals } from "@/public/data/data";
 import ProposalItem from "../listItems/ProposalItem";
-import { ProposalItemTypes } from "@/types/ProposalItemTypes";
 import { useReadContract } from "wagmi";
 import { ABI } from "@/abi/relief-finance";
 import { RWA_ADDRESS } from "@/context/provider/rainbow-kit";
+import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 
 const OpenProposalsList = () => {
-  const [proposalData, setProposalData] =
-    useState<ProposalItemTypes[]>(proposals);
+  const [campaigns, setCampaigns] = useState<GetAllCampaigns[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [campaigns, setCampaigns] = useState([]);
   const itemsPerPage = 6;
 
   // Fetch all created campaigns
   const {
     data: proposalList,
-    refetch: fetchProposals,
+    refetch,
     isLoading,
-    isError: isReadError,
-    isRefetching,
+    isError,
   } = useReadContract({
     abi: ABI,
     functionName: "getAllCampaigns",
@@ -35,36 +29,41 @@ const OpenProposalsList = () => {
     chainId: 42421,
   });
 
-  console.log("====================================");
-  // console.log(proposalList);
-  console.log("from contract", proposalList);
-
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    if (proposalList && Array.isArray(proposalList)) {
+      const campaignsConverted = proposalList.map((campaign: any) => ({
+        amountRaised: Number(campaign?.amountRaised),
+        category: campaign?.category,
+        createdAt: new Date(Number(campaign?.createdAt) * 1000),
+        creator: campaign?.creator,
+        deadline: new Date(Number(campaign?.deadline) * 1000),
+        description: campaign?.description,
+        goal: Number(campaign?.goal),
+        id: Number(campaign?.id),
+        isCompleted: campaign?.isCompleted,
+        physicalAddress: campaign?.physicalAddress,
+        title: campaign?.title,
+      }));
 
-    return () => {
-      clearTimeout(timeout);
-      setProposalData(proposals);
-    };
+      setCampaigns(campaignsConverted);
+    }
   }, [proposalList]);
 
-  const filteredDonations = proposalData.filter((proposal) => {
-    const matchesQuery = proposal.title
+  const filteredCampaigns = campaigns.filter((campaign) => {
+    const matchesQuery = campaign.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || proposal.category === selectedCategory;
+      selectedCategory === "All" || campaign.category === selectedCategory;
     return matchesQuery && matchesCategory;
   });
 
   // Pagination
-  const totalItems = filteredDonations.length;
+  const totalItems = filteredCampaigns.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDonations.slice(
+  const currentItems = filteredCampaigns.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
@@ -107,7 +106,7 @@ const OpenProposalsList = () => {
           ))}
         </div>
 
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center h-48">
             <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
           </div>
@@ -118,8 +117,7 @@ const OpenProposalsList = () => {
         ) : (
           <div className="flex flex-wrap justify-center gap-6">
             {currentItems.map((proposal) => {
-              const progress =
-                (proposal?.currentAmount / proposal?.totalAmount) * 100;
+              const progress = (proposal?.amountRaised / proposal?.goal) * 100;
               return (
                 <ProposalItem
                   key={proposal?.id}

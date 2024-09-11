@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setCurrentUser(user);
       toast.success("Welcome to Relief Finance!");
       router.push("/dashboard");
+      window.location.reload();
     } catch (error: any) {
       toast.error("Error during Google sign-in: " + error.message);
       console.error("Google sign-in error:", error);

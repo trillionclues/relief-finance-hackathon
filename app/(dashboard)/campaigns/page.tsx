@@ -1,46 +1,68 @@
 "use client";
+import { ABI } from "@/abi/relief-finance";
 import DashboardNav from "@/components/home/DashboardNav";
 import ProposalItem from "@/components/listItems/ProposalItem";
+import { RWA_ADDRESS } from "@/context/provider/rainbow-kit";
 import { categories } from "@/public/data/categories";
-import { proposals } from "@/public/data/data";
-import { ProposalItemTypes } from "@/types/ProposalItemTypes";
+import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 import React, { useEffect, useState } from "react";
+import { useReadContract } from "wagmi";
 
 const ProposalsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [proposalData, setProposalData] =
-    useState<ProposalItemTypes[]>(proposals);
+  const [campaigns, setCampaigns] = useState<GetAllCampaigns[]>([]);
   const itemsPerPage = 6;
 
+  // Fetch all created campaigns
+  const {
+    data: proposalList,
+    refetch,
+    isLoading,
+    isError,
+  } = useReadContract({
+    abi: ABI,
+    functionName: "getAllCampaigns",
+    address: RWA_ADDRESS,
+    chainId: 42421,
+  });
+
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    if (proposalList && Array.isArray(proposalList)) {
+      const campaignsConverted = proposalList.map((campaign: any) => ({
+        amountRaised: Number(campaign.amountRaised),
+        category: campaign.category,
+        createdAt: new Date(Number(campaign?.createdAt) * 1000),
+        creator: campaign.creator,
+        deadline: new Date(Number(campaign?.deadline) * 1000),
+        description: campaign.description,
+        goal: Number(campaign.goal),
+        id: Number(campaign.id),
+        isCompleted: campaign.isCompleted,
+        physicalAddress: campaign.physicalAddress,
+        title: campaign.title,
+      }));
 
-    return () => {
-      clearTimeout(timeout);
-      setProposalData(proposals);
-    };
-  }, []);
+      setCampaigns(campaignsConverted);
+    }
+  }, [proposalList]);
 
-  const filteredDonations = proposalData.filter((proposal) => {
-    const matchesQuery = proposal.title
+  const filteredCampaigns = campaigns.filter((campaign) => {
+    const matchesQuery = campaign.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || proposal.category === selectedCategory;
+      selectedCategory === "All" || campaign.category === selectedCategory;
     return matchesQuery && matchesCategory;
   });
 
   // Pagination
-  const totalItems = filteredDonations.length;
+  const totalItems = filteredCampaigns.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDonations.slice(
+  const currentItems = filteredCampaigns.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
@@ -82,7 +104,7 @@ const ProposalsList = () => {
           ))}
         </div>
 
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center h-48">
             <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
           </div>
@@ -93,8 +115,7 @@ const ProposalsList = () => {
         ) : (
           <div className="flex flex-wrap justify-center gap-6">
             {currentItems.map((proposal) => {
-              const progress =
-                (proposal?.currentAmount / proposal?.totalAmount) * 100;
+              const progress = (proposal?.amountRaised / proposal?.goal) * 100;
               return (
                 <ProposalItem
                   key={proposal?.id}

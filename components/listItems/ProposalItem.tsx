@@ -1,15 +1,16 @@
-import { ProposalItemTypes } from "@/types/ProposalItemTypes";
+import { formatISODate } from "@/lib/utils/TextFormating";
+import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { FiBookmark } from "react-icons/fi";
 
-interface ProposalItemProps {
-  proposal: ProposalItemTypes;
+interface CampaignItemProps {
+  proposal: GetAllCampaigns;
   progress: number;
 }
 
-const ProposalItem = ({ proposal, progress }: ProposalItemProps) => {
+const ProposalItem = ({ proposal, progress }: CampaignItemProps) => {
   return (
     <div
       key={proposal?.id}
@@ -17,7 +18,7 @@ const ProposalItem = ({ proposal, progress }: ProposalItemProps) => {
     >
       <div className="relative">
         <Image
-          src={proposal?.image}
+          src="/images/drought.png"
           alt={proposal?.title}
           width={400}
           height={300}
@@ -27,8 +28,8 @@ const ProposalItem = ({ proposal, progress }: ProposalItemProps) => {
       <div className="p-4 flex flex-col justify-between flex-grow">
         <div>
           <div className="flex justify-between items-center text-gray-500 text-xs mb-1">
-            <span>{proposal?.date}</span>
-            <span>{proposal?.donationsCount} donations</span>
+            <span>{formatISODate(proposal?.deadline)}</span>
+            <span>452 donations</span>
           </div>
           <h3 className="text-md font-bold text-gray-800 mb-2">
             {proposal?.title}
@@ -44,7 +45,7 @@ const ProposalItem = ({ proposal, progress }: ProposalItemProps) => {
               ></div>
             </div>
             <div className="flex justify-between text-sm text-gray-500 mt-1">
-              <span>${proposal?.currentAmount.toFixed(2)}</span>
+              <span>${proposal?.amountRaised.toFixed(2)}</span>
               <span>{progress.toFixed(0)}%</span>
             </div>
           </div>
@@ -54,7 +55,7 @@ const ProposalItem = ({ proposal, progress }: ProposalItemProps) => {
             <FiBookmark size={20} />
           </div>
           <Link
-            href={`/proposals/${proposal.id}`}
+            href={`/campaigns/${proposal.id}`}
             className="flex w-full justify-end"
           >
             <button className="flex-1 ml-2 px-4 py-2 border border-teal-500 rounded-sm text-black bg-transparent hover:bg-teal-500 hover:text-white text-xs">

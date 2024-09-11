@@ -1,13 +1,13 @@
 export interface GetAllCampaigns {
   amountRaised: number;
   category: string;
-  createdAt: number;
+  createdAt: Date;
   creator: string;
-  deadline: number;
+  deadline: Date;
   description: string;
   goal: number;
   id: number;
-  isApproved: boolean;
+  isApproved?: boolean;
   isCompleted: boolean;
   physicalAddress: string;
   title: string;

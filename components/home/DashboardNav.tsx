@@ -35,7 +35,7 @@ const DashboardNav = () => {
                   Home
                 </Link>
                 <Link
-                  href="/proposals"
+                  href="/campaigns"
                   className="text-gray-600 hover:text-gray-900 text-xs"
                 >
                   Campaigns
