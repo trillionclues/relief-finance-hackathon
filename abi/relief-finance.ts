@@ -46,18 +46,6 @@ export const ABI = [
       },
       {
         indexed: false,
-        internalType: "string",
-        name: "description",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "physicalAddress",
-        type: "string",
-      },
-      {
-        indexed: false,
         internalType: "uint256",
         name: "goal",
         type: "uint256",
@@ -159,11 +147,6 @@ export const ABI = [
         type: "bool",
       },
       {
-        internalType: "bool",
-        name: "isApproved",
-        type: "bool",
-      },
-      {
         internalType: "string",
         name: "category",
         type: "string",
@@ -188,6 +171,25 @@ export const ABI = [
     name: "approveCampaign",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "approvedCampaigns",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -280,11 +282,6 @@ export const ABI = [
       {
         internalType: "bool",
         name: "isCompleted",
-        type: "bool",
-      },
-      {
-        internalType: "bool",
-        name: "isApproved",
         type: "bool",
       },
       {
@@ -434,11 +431,6 @@ export const ABI = [
             type: "bool",
           },
           {
-            internalType: "bool",
-            name: "isApproved",
-            type: "bool",
-          },
-          {
             internalType: "string",
             name: "category",
             type: "string",
@@ -506,11 +498,6 @@ export const ABI = [
           {
             internalType: "bool",
             name: "isCompleted",
-            type: "bool",
-          },
-          {
-            internalType: "bool",
-            name: "isApproved",
             type: "bool",
           },
           {
@@ -588,11 +575,6 @@ export const ABI = [
         type: "bool",
       },
       {
-        internalType: "bool",
-        name: "isApproved",
-        type: "bool",
-      },
-      {
         internalType: "uint256",
         name: "createdAt",
         type: "uint256",
@@ -661,11 +643,6 @@ export const ABI = [
           {
             internalType: "bool",
             name: "isCompleted",
-            type: "bool",
-          },
-          {
-            internalType: "bool",
-            name: "isApproved",
             type: "bool",
           },
           {
@@ -758,8 +735,84 @@ export const ABI = [
             type: "bool",
           },
           {
+            internalType: "string",
+            name: "category",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ReliefFinance.Campaign[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "start",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "limit",
+        type: "uint256",
+      },
+    ],
+    name: "getPaginatedCampaigns",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "address payable",
+            name: "creator",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "physicalAddress",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "goal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadline",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "amountRaised",
+            type: "uint256",
+          },
+          {
             internalType: "bool",
-            name: "isApproved",
+            name: "isCompleted",
             type: "bool",
           },
           {
@@ -792,6 +845,25 @@ export const ABI = [
     name: "getRefund",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_id",
+        type: "uint256",
+      },
+    ],
+    name: "isApproved",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {

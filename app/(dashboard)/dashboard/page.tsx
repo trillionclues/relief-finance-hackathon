@@ -12,7 +12,7 @@ import { ABI } from "@/abi/relief-finance";
 import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 import { MdCampaign } from "react-icons/md";
 import { toast } from "react-toastify";
-import { CONTRACT_ADDRESS } from "@/context/provider/rainbow-kit";
+import { CONTRACT_ADDRESS, RWA_ADDRESS } from "@/context/provider/rainbow-kit";
 
 const Dashboard = () => {
   const [campaigns, setCampaigns] = useState<GetAllCampaigns[]>([]);
@@ -33,8 +33,9 @@ const Dashboard = () => {
 
   const handleCreateProposal = (createProposalData: CreateProposalFormData) => {
     createCampaign({
+      chainId: 42421,
       abi: ABI,
-      address: CONTRACT_ADDRESS,
+      address: RWA_ADDRESS,
       functionName: "createCampaign",
       args: [
         createProposalData.title,
@@ -45,9 +46,9 @@ const Dashboard = () => {
         createProposalData.category,
       ],
     });
-    console.log("====================================");
-    console.log(createProposalData);
-    console.log("====================================");
+    // console.log("====================================");
+    // console.log(createProposalData);
+    // console.log("====================================");
     fetchProposals();
     setIsModalOpen(false);
     if (isSuccess) {
@@ -56,7 +57,9 @@ const Dashboard = () => {
       toast.error("Proposal creation failed");
     }
   };
-
+  useEffect(() => {
+    fetchProposals();
+  });
   // Fetch campaigns by creator
   const {
     data: proposalList,
@@ -66,11 +69,11 @@ const Dashboard = () => {
     isRefetching,
   } = useReadContract({
     abi: ABI,
-    address: CONTRACT_ADDRESS,
+    address: RWA_ADDRESS,
     functionName: "getCampaignsByCreator",
     args: [address],
   });
-
+  console.log("list", proposalList);
   // Convert BigInt to number
   useEffect(() => {
     if (proposalList && Array.isArray(proposalList)) {

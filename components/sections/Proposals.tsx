@@ -1,4 +1,5 @@
 "use client";
+//@ts-nocheck
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -8,6 +9,7 @@ import ProposalItem from "../listItems/ProposalItem";
 import { ProposalItemTypes } from "@/types/ProposalItemTypes";
 import { useReadContract } from "wagmi";
 import { ABI } from "@/abi/relief-finance";
+import { RWA_ADDRESS } from "@/context/provider/rainbow-kit";
 
 const OpenProposalsList = () => {
   const [proposalData, setProposalData] =
@@ -16,6 +18,7 @@ const OpenProposalsList = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [campaigns, setCampaigns] = useState([]);
   const itemsPerPage = 6;
 
   // Fetch all created campaigns
@@ -28,12 +31,13 @@ const OpenProposalsList = () => {
   } = useReadContract({
     abi: ABI,
     functionName: "getAllCampaigns",
-    address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
+    address: RWA_ADDRESS,
+    chainId: 42421,
   });
 
   console.log("====================================");
-  console.log(proposalList);
-  console.log("====================================");
+  // console.log(proposalList);
+  console.log("from contract", proposalList);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
