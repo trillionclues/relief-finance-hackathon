@@ -28,7 +28,7 @@ const ProposalItem = ({ proposal, progress }: CampaignItemProps) => {
       <div className="p-4 flex flex-col justify-between flex-grow">
         <div>
           <div className="flex justify-between items-center text-gray-500 text-xs mb-1">
-            <span>{formatISODate(proposal?.deadline)}</span>
+            <span>{formatISODate(proposal?.createdAt)}</span>
             <span>452 donations</span>
           </div>
           <h3 className="text-md font-bold text-gray-800 mb-2">

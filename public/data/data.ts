@@ -340,3 +340,9 @@ export const activityTimeline = [
   },
   // More activity...
 ];
+
+export const allowedAdminEmails = [
+  "geepytechnologies@gmail.com",
+  "proxyisnice@gmail.com",
+  "trillionclues@gmail.com",
+];

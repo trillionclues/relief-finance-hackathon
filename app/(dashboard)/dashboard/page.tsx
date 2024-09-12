@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { AuthContext } from "@/context/AuthContext";
-import { activityTimeline } from "@/public/data/data";
+import { activityTimeline, allowedAdminEmails } from "@/public/data/data";
 import DashboardNav from "@/components/home/DashboardNav";
 import { useAccount, useWriteContract, useReadContract } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -30,27 +30,56 @@ const Dashboard = () => {
     isSuccess,
   } = useWriteContract();
 
-  const handleCreateProposal = (createProposalData: CreateProposalFormData) => {
-    createCampaign({
+  const handleCreateProposal = async (
+    createProposalData: CreateProposalFormData
+  ) => {
+    try {
+      const result = await createCampaign({
+        chainId: 42421,
+        abi: ABI,
+        address: RWA_ADDRESS,
+        functionName: "createCampaign",
+        args: [
+          createProposalData.title,
+          createProposalData.description,
+          createProposalData.physicalAddress,
+          createProposalData.goal,
+          createProposalData.duration,
+          createProposalData.category,
+        ],
+      });
+
+      if (isCreating) {
+        toast.info("Transaction submitted, waiting for confirmation...");
+      } else if (isError) {
+        toast.error(`${error?.message}`);
+      }
+    } catch (error) {
+      console.error("Error creating campaign:", error);
+      toast.error("Campaign creation failed");
+    }
+  };
+
+  if (isSuccess) {
+    setIsModalOpen(false);
+    toast.success("Transaction successful!");
+  }
+
+  // Approve campaign
+  const { writeContract: approveCampaign, isPending: isApproving } =
+    useWriteContract();
+  const handleApproveCampaign = (campaignId: number) => {
+    approveCampaign({
       chainId: 42421,
       abi: ABI,
       address: RWA_ADDRESS,
-      functionName: "createCampaign",
-      args: [
-        createProposalData.title,
-        createProposalData.description,
-        createProposalData.physicalAddress,
-        createProposalData.goal,
-        createProposalData.duration,
-        createProposalData.category,
-      ],
+      functionName: "approveCampaign",
+      args: [campaignId],
     });
-
-    setIsModalOpen(false);
-    if (isCreating) {
-      toast.success("Complete campaign creation in the Explorer...");
+    if (isApproving) {
+      toast.success("Campaign approval in progress...");
     } else {
-      toast.error("Campaign creation failed");
+      toast.error("Campaign approval failed");
     }
   };
 
@@ -67,8 +96,6 @@ const Dashboard = () => {
     address: RWA_ADDRESS,
     chainId: 42421,
   });
-
-  console.log("list", campaign);
 
   // Convert BigInt to number
   useEffect(() => {
@@ -117,40 +144,59 @@ const Dashboard = () => {
               <div className="loader border-t-4 border-teal-500 rounded-full w-16 h-16 animate-spin"></div>
             </div>
           ) : campaigns.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 mb-8">
               {campaigns.map((campaign) => {
                 const progress =
                   (campaign?.amountRaised / campaign?.goal) * 100;
                 return (
                   <div
                     key={campaign.id}
-                    className="bg-white p-4 rounded-lg shadow-md"
+                    className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
                   >
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h2 className="text-lg font-semibold">
+                        <h2 className="text-xl font-bold text-gray-800">
                           {campaign.title}
                         </h2>
-                        <p className="text-sm text-gray-600">
-                          Owner: {currentUser?.displayName || "Anonymous"}
+                        <p className="text-sm text-gray-500">
+                          Owner:{" "}
+                          <span className="font-medium text-gray-700">
+                            {currentUser?.displayName || "Anonymous"}
+                          </span>
                         </p>
-                        <p className="text-xs text-gray-400">
-                          {campaign.physicalAddress}
+                        <p className="text-xs text-gray-400 mt-1">
+                          {campaign.description}
                         </p>
                       </div>
                     </div>
+
                     <div className="mt-4">
-                      <p className="text-xs text-gray-400">Goal Amount</p>
-                      <p className="text-xl font-semibold">
+                      <p className="text-xs text-gray-500">Goal Amount</p>
+                      <p className="text-2xl font-semibold text-teal-600">
                         {campaign.goal} USDT
                       </p>
-                      <div className="mt-2 bg-gray-200 rounded-full h-2">
+                      <div className="relative mt-3 h-3 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                          className="bg-green-500 h-2 rounded-full"
+                          className="absolute top-0 left-0 h-full bg-green-500 rounded-full transition-all duration-300"
                           style={{ width: `${progress}%` }}
                         ></div>
                       </div>
+                      <p className="mt-2 text-right text-sm text-gray-600">
+                        {Math.round(progress)}% funded
+                      </p>
                     </div>
+
+                    {isConnected &&
+                      currentUser?.email &&
+                      allowedAdminEmails.includes(currentUser.email) && (
+                        <button
+                          className="bg-green-700 text-white px-5 py-2 mt-3 rounded-full shadow-md hover:bg-green-800 transition-colors duration-300 w-full"
+                          onClick={() => handleApproveCampaign(campaign.id)}
+                          disabled={isApproving}
+                        >
+                          {isApproving ? "Approving..." : "Approve Campaign"}
+                        </button>
+                      )}
                   </div>
                 );
               })}

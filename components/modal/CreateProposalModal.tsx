@@ -167,7 +167,7 @@ const CreateProposalModal = ({
 
             <div className="mb-1">
               <label className="block text-sm font-medium mb-1" htmlFor="goal">
-                Goal Amount (USDT)
+                Goal Amount (in RWA)
               </label>
               <input
                 type="number"
@@ -270,7 +270,7 @@ const CreateProposalModal = ({
               className="bg-teal-500 text-white px-4 py-3 rounded-md shadow-sm hover:bg-teal-600 w-1/2"
               disabled={isCreating}
             >
-              {isCreating ? "Creating" : "Submit"}
+              {isCreating ? "Creating campaign..." : "Submit"}
             </button>
           </div>
         </form>

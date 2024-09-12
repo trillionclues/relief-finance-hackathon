@@ -165,7 +165,7 @@ const OpenProposalsList = () => {
           </nav>
           <div>
             <Link
-              href={"/proposals"}
+              href={"/campaigns"}
               className="text-teal-500 text-sm flex flex-row items-center gap-2"
             >
               See all <FaArrowRightLong size={15} />

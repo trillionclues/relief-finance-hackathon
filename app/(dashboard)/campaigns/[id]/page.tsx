@@ -18,7 +18,7 @@ const ProposalDetails = () => {
   const [campaignDetails, setCampaignDetails] =
     useState<GetSingleCampaignDetails | null>(null);
 
-  // Fetch all created campaigns
+  // Fetch campaign details
   const {
     data: campaign,
     refetch,
@@ -70,11 +70,13 @@ const ProposalDetails = () => {
               className="w-full h-auto rounded-lg"
             />
             <p className="text-sm text-gray-500 mt-3">
-              {" "}
               {campaignDetails?.description}
             </p>
-            <FundCampaign />
+            {campaignDetails && (
+              <FundCampaign campaignDetails={campaignDetails} />
+            )}
           </div>
+
           <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
             <h1 className="text-4xl font-bold mb-4">
               {campaignDetails?.title}
@@ -106,6 +108,17 @@ const ProposalDetails = () => {
               </div>
             </div>
 
+            <div className="mt-6">
+              <p className="text-sm text-gray-600">
+                <strong>Deadline:</strong>{" "}
+                {campaignDetails?.deadline?.toLocaleDateString()}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Status:</strong>{" "}
+                {campaignDetails?.isCompleted ? "Completed" : "Ongoing"}
+              </p>
+            </div>
+
             <div className="mt-6 flex space-x-4">
               <button className="px-6 py-3 bg-teal-500 text-white rounded-lg shadow-sm hover:bg-teal-600">
                 Share Campaign
@@ -134,7 +147,6 @@ const ProposalDetails = () => {
                 </div>
               </div>
             </div>
-            {/* <ProposalFundingHistory proposal={proposal} /> */}
           </div>
         </div>
       </section>
