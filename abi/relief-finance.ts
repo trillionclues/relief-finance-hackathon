@@ -520,6 +520,81 @@ export const ABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getAllCampaignsWithContibutorCount",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "address payable",
+            name: "creator",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "physicalAddress",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "goal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadline",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "amountRaised",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isCompleted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "category",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ReliefFinance.Campaign[]",
+        name: "",
+        type: "tuple[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -583,6 +658,87 @@ export const ABI = [
         internalType: "string",
         name: "category",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_id",
+        type: "uint256",
+      },
+    ],
+    name: "getCampaignWithContributors",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "address payable",
+            name: "creator",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "physicalAddress",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "goal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadline",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "amountRaised",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isCompleted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "category",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ReliefFinance.Campaign",
+        name: "campaign",
+        type: "tuple",
+      },
+      {
+        internalType: "address[]",
+        name: "contributors",
+        type: "address[]",
       },
     ],
     stateMutability: "view",
@@ -659,6 +815,87 @@ export const ABI = [
         internalType: "struct ReliefFinance.Campaign[]",
         name: "",
         type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_creator",
+        type: "address",
+      },
+    ],
+    name: "getCampaignsByCreatorWithApprovalStatus",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "address payable",
+            name: "creator",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "physicalAddress",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "goal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "deadline",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "amountRaised",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isCompleted",
+            type: "bool",
+          },
+          {
+            internalType: "string",
+            name: "category",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "createdAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct ReliefFinance.Campaign[]",
+        name: "",
+        type: "tuple[]",
+      },
+      {
+        internalType: "bool[]",
+        name: "",
+        type: "bool[]",
       },
     ],
     stateMutability: "view",

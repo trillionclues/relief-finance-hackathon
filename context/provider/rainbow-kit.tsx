@@ -9,7 +9,7 @@ import { createConfig, http, WagmiProvider } from "wagmi";
 import { mainnet, sepolia, polygonAmoy, polygon } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 export const CONTRACT_ADDRESS = "0xD2261182E1DD8928Bdea08d7AFeD0855d3BEE8c2";
-export const RWA_ADDRESS = "0xFE66e164002ae5fD1bbB9430f11A8147395B2095";
+export const RWA_ADDRESS = "0x1b52A32F682E2D59FcA9dC2A60bBA04e286A7C3c";
 import { defineChain } from "viem";
 
 export const assetchain = defineChain({

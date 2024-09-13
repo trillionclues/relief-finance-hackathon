@@ -68,9 +68,10 @@ const CreateProposalModal = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
+      const goalInSmallestUnit = Number(formValues.goal) * 10 ** 9;
       const formData: CreateProposalFormData = {
         ...formValues,
-        goal: Number(formValues.goal),
+        goal: goalInSmallestUnit,
         duration: Number(formValues.duration),
       };
       onSubmit(formData);
@@ -173,6 +174,7 @@ const CreateProposalModal = ({
                 type="number"
                 name="goal"
                 id="goal"
+                step="any"
                 value={formValues.goal}
                 onChange={handleChange}
                 min="0"
@@ -181,6 +183,9 @@ const CreateProposalModal = ({
               {errors.goal && (
                 <p className="text-red-500 text-xs">{errors.goal}</p>
               )}
+              <p className="text-xs text-gray-500 pt-1">
+                1RWA = 1,000,000,000RWa
+              </p>
             </div>
 
             <div className="mb-1">
@@ -248,7 +253,7 @@ const CreateProposalModal = ({
                 onChange={handleChange}
                 className="w-full px-3 py-2 border rounded-md text-sm"
                 maxLength={300}
-                rows={1}
+                rows={3}
                 style={{ resize: "none" }}
               />
 

@@ -26,29 +26,65 @@ const ProposalDetails = () => {
     isError,
   } = useReadContract({
     abi: ABI,
-    functionName: "getCampaign",
+    functionName: "getCampaignWithContributors",
     args: [Number(id)],
     address: RWA_ADDRESS,
     chainId: 42421,
   });
 
+  // get campaign approval status
+  const { data, isLoading: checkingStatus } = useReadContract({
+    abi: ABI,
+    functionName: "isApproved",
+    args: [Number(id)],
+    address: RWA_ADDRESS,
+    chainId: 42421,
+  });
+
+  console.log("====================================");
+  console.log(campaignDetails);
+  console.log("====================================");
+
   useEffect(() => {
     if (campaign && Array.isArray(campaign)) {
-      const mappedCampaign: GetSingleCampaignDetails = {
-        id: Number(campaign[0]),
-        creator: campaign[1],
-        title: campaign[2],
-        description: campaign[3],
-        physicalAddress: campaign[4],
-        goal: Number(campaign[5]),
-        deadline: new Date(Number(campaign[6]) * 1000),
-        amountRaised: Number(campaign[7]),
-        isCompleted: campaign[8],
-        createdAt: new Date(Number(campaign[9]) * 1000),
-        category: campaign[10] as string,
-      };
+      const flatCampaignDetails = campaign.flat();
 
-      setCampaignDetails(mappedCampaign);
+      const campaignsDetailsConverted = flatCampaignDetails.map(
+        (item): GetSingleCampaignDetails | null => {
+          if (item && typeof item === "object") {
+            return {
+              amountRaised: Number(item?.amountRaised),
+              category: item.category,
+              createdAt: new Date(Number(item?.createdAt) * 1000),
+              creator: item.creator,
+              deadline: new Date(Number(item?.deadline) * 1000),
+              description: item?.description,
+              goal: Number(item?.goal) / 10 ** 9,
+              id: Number(item?.id),
+              isCompleted: item?.isCompleted ?? false,
+              physicalAddress: item?.physicalAddress,
+              title: item?.title,
+              // contributors: item?.contributors?.map((contributor) => ({
+              //   address: contributor.address,
+              //   amount: Number(contributor.amount),
+              // })),
+              // contributors: item?.contributors,
+            };
+          }
+          return null;
+        }
+      );
+
+      const filteredCampaigns = campaignsDetailsConverted.filter(
+        (campaign): campaign is GetSingleCampaignDetails => campaign !== null
+      );
+
+      if (
+        filteredCampaigns.length > 0 &&
+        JSON.stringify(filteredCampaigns[0]) !== JSON.stringify(campaignDetails)
+      ) {
+        setCampaignDetails(filteredCampaigns[0]);
+      }
     }
   }, [campaign]);
 
@@ -78,33 +114,53 @@ const ProposalDetails = () => {
           </div>
 
           <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
-            <h1 className="text-4xl font-bold mb-4">
-              {campaignDetails?.title}
-            </h1>
+            <div className="flex items-center mb-4">
+              <h1 className="text-4xl font-bold">{campaignDetails?.title}</h1>
+              {data && !checkingStatus ? (
+                <span className="ml-4 px-3 py-[6px] text-xs font-semibold text-white bg-teal-500 rounded-md">
+                  Approved
+                </span>
+              ) : (
+                <span className="ml-4 px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded-full">
+                  Not Approved
+                </span>
+              )}
+            </div>
             <p className="text-gray-700 mb-4">{campaignDetails?.description}</p>
             <Link href="#" className="text-teal-500">
               Read more
             </Link>
 
             <div className="mt-6">
-              <div className="flex items-baseline justify-between">
-                <p className="text-xl font-semibold text-teal-500">
-                  ${campaignDetails?.amountRaised?.toLocaleString()} / $
-                  {campaignDetails?.goal?.toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-500">452 donations</p>
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-lg font-semibold text-teal-500">
+                  {campaignDetails?.amountRaised.toLocaleString()} RWA
+                </div>
+                <div className="text-lg font-semibold text-teal-500">
+                  {campaignDetails?.goal.toLocaleString()} RWA
+                </div>
               </div>
-              <div className="bg-gray-200 h-2 rounded-full mt-2">
-                <div
-                  className="h-full bg-teal-500 rounded-full"
-                  style={{
-                    width: `${
-                      ((campaignDetails?.amountRaised ?? 0) /
-                        (campaignDetails?.goal ?? 1)) *
+              <div className="relative">
+                <div className="bg-gray-200 h-2 rounded-full">
+                  <div
+                    className="h-full bg-teal-500 rounded-full"
+                    style={{
+                      width: `${
+                        ((campaignDetails?.amountRaised ?? 0) /
+                          (campaignDetails?.goal ?? 1)) *
+                        100
+                      }%`,
+                    }}
+                  />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center text-xs font-medium text-teal-600">
+                  {Math.round(
+                    ((campaignDetails?.amountRaised ?? 0) /
+                      (campaignDetails?.goal ?? 1)) *
                       100
-                    }%`,
-                  }}
-                />
+                  )}
+                  %
+                </div>
               </div>
             </div>
 
@@ -141,9 +197,11 @@ const ProposalDetails = () => {
                 ) : (
                   <FaUserCircle size={48} className="text-gray-500" />
                 )}
-                <div>
-                  <h3 className="text-md font-semibold">{"John Doe"}</h3>
-                  <p className="text-xs text-gray-500">Organizer</p>
+                <div className="mt-1">
+                  <h3 className="text-xs">{campaignDetails?.creator}</h3>
+                  <p className="text-sm font-semibold text-gray-500">
+                    Organizer
+                  </p>
                 </div>
               </div>
             </div>

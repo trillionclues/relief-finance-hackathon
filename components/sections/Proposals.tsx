@@ -14,38 +14,53 @@ const OpenProposalsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 3;
 
   // Fetch all created campaigns
   const {
     data: proposalList,
-    refetch,
     isLoading,
     isError,
   } = useReadContract({
     abi: ABI,
-    functionName: "getAllCampaigns",
+    functionName: "getAllCampaignsWithContibutorCount",
     address: RWA_ADDRESS,
     chainId: 42421,
   });
 
   useEffect(() => {
     if (proposalList && Array.isArray(proposalList)) {
-      const campaignsConverted = proposalList.map((campaign: any) => ({
-        amountRaised: Number(campaign?.amountRaised),
-        category: campaign?.category,
-        createdAt: new Date(Number(campaign?.createdAt) * 1000),
-        creator: campaign?.creator,
-        deadline: new Date(Number(campaign?.deadline) * 1000),
-        description: campaign?.description,
-        goal: Number(campaign?.goal),
-        id: Number(campaign?.id),
-        isCompleted: campaign?.isCompleted,
-        physicalAddress: campaign?.physicalAddress,
-        title: campaign?.title,
-      }));
+      const flatCampaignData = proposalList.flat();
 
-      setCampaigns(campaignsConverted);
+      const campaignsConverted = flatCampaignData.map(
+        (item): GetAllCampaigns | null => {
+          if (item && typeof item === "object") {
+            return {
+              amountRaised: Number(item?.amountRaised),
+              category: item?.category,
+              createdAt: new Date(Number(item?.createdAt) * 1000),
+              creator: item?.creator,
+              deadline: new Date(Number(item?.deadline) * 1000),
+              description: item?.description,
+              goal: Number(item?.goal) / 10 ** 9,
+              id: Number(item?.id),
+              isApproved: item?.isApproved ?? false,
+              isCompleted: item?.isCompleted ?? false,
+              physicalAddress: item?.physicalAddress,
+              title: item?.title,
+            };
+          }
+          return null;
+        }
+      );
+
+      const filteredCampaigns = campaignsConverted.filter(
+        (campaign): campaign is GetAllCampaigns => campaign !== null
+      );
+
+      if (JSON.stringify(filteredCampaigns) !== JSON.stringify(campaigns)) {
+        setCampaigns(filteredCampaigns);
+      }
     }
   }, [proposalList]);
 
@@ -53,8 +68,11 @@ const OpenProposalsList = () => {
     const matchesQuery = campaign.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
+
     const matchesCategory =
-      selectedCategory === "All" || campaign.category === selectedCategory;
+      selectedCategory.toLowerCase() === "all" ||
+      campaign.category.toLowerCase() === selectedCategory.toLowerCase();
+
     return matchesQuery && matchesCategory;
   });
 
@@ -77,7 +95,7 @@ const OpenProposalsList = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-            Open <span className="text-teal-500">proposals</span>
+            Open <span className="text-teal-500">Proposals</span>
           </h2>
           <div className="mt-4">
             <input

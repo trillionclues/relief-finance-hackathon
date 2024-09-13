@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { AuthContext } from "@/context/AuthContext";
-import { activityTimeline, allowedAdminEmails } from "@/public/data/data";
+import { activityTimeline } from "@/public/data/data";
 import DashboardNav from "@/components/home/DashboardNav";
 import { useAccount, useWriteContract, useReadContract } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -13,6 +13,7 @@ import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 import { MdCampaign } from "react-icons/md";
 import { toast } from "react-toastify";
 import { RWA_ADDRESS } from "@/context/provider/rainbow-kit";
+import DashboardCampaignItem from "@/components/dashboard/DashboardCampaignItem";
 
 const Dashboard = () => {
   const [campaigns, setCampaigns] = useState<GetAllCampaigns[]>([]);
@@ -20,10 +21,23 @@ const Dashboard = () => {
   const { currentUser } = useContext(AuthContext);
   const { isConnected, address } = useAccount();
 
+  // Fetch campaigns by creator
+  const {
+    data: getcampaigns,
+    refetch,
+    isLoading,
+    isRefetching,
+  } = useReadContract({
+    abi: ABI,
+    functionName: "getCampaignsByCreatorWithApprovalStatus",
+    args: [address],
+    address: RWA_ADDRESS,
+    chainId: 42421,
+  });
+
   // create campaign
   const {
     writeContract: createCampaign,
-    data,
     isError,
     error,
     isPending: isCreating,
@@ -48,76 +62,66 @@ const Dashboard = () => {
           createProposalData.category,
         ],
       });
-
+    } catch (error) {
+      console.error("Error creating campaign:", error);
+      toast.error("Error creating campaign!");
+    } finally {
       if (isCreating) {
         toast.info("Transaction submitted, waiting for confirmation...");
       } else if (isError) {
         toast.error(`${error?.message}`);
       }
-    } catch (error) {
-      console.error("Error creating campaign:", error);
-      toast.error("Campaign creation failed");
     }
   };
 
-  if (isSuccess) {
-    setIsModalOpen(false);
-    toast.success("Transaction successful!");
-  }
-
-  // Approve campaign
-  const { writeContract: approveCampaign, isPending: isApproving } =
-    useWriteContract();
-  const handleApproveCampaign = (campaignId: number) => {
-    approveCampaign({
-      chainId: 42421,
-      abi: ABI,
-      address: RWA_ADDRESS,
-      functionName: "approveCampaign",
-      args: [campaignId],
-    });
-    if (isApproving) {
-      toast.success("Campaign approval in progress...");
-    } else {
-      toast.error("Campaign approval failed");
+  // Refetch campaigns
+  useEffect(() => {
+    if (isSuccess) {
+      const timeout = setTimeout(() => {
+        setIsModalOpen(false);
+      }, 100);
+      toast.success("Campaign created successfully!");
+      refetch();
+      return () => clearTimeout(timeout);
     }
-  };
-
-  // Fetch campaigns by creator
-  const {
-    data: campaign,
-    refetch,
-    isLoading,
-    isRefetching,
-  } = useReadContract({
-    abi: ABI,
-    functionName: "getCampaignsByCreator",
-    args: [address],
-    address: RWA_ADDRESS,
-    chainId: 42421,
-  });
+  }, [isSuccess, refetch]);
 
   // Convert BigInt to number
   useEffect(() => {
-    if (campaign && Array.isArray(campaign)) {
-      const campaignsConverted = campaign.map((campaign: any) => ({
-        amountRaised: Number(campaign?.amountRaised),
-        category: campaign?.category,
-        createdAt: new Date(Number(campaign?.createdAt) * 1000),
-        creator: campaign.creator,
-        deadline: new Date(Number(campaign?.deadline) * 1000),
-        description: campaign?.description,
-        goal: Number(campaign?.goal),
-        id: Number(campaign?.id),
-        isApproved: campaign?.isApproved,
-        isCompleted: campaign?.isCompleted,
-        physicalAddress: campaign?.physicalAddress,
-        title: campaign?.title,
-      }));
+    if (getcampaigns && Array.isArray(getcampaigns)) {
+      const flatCampaignData = getcampaigns.flat();
 
-      setCampaigns(campaignsConverted);
+      const campaignsConverted = flatCampaignData.map(
+        (item): GetAllCampaigns | null => {
+          if (item && typeof item === "object") {
+            return {
+              amountRaised: Number(item?.amountRaised),
+              category: item.category,
+              createdAt: new Date(Number(item?.createdAt) * 1000),
+              creator: item.creator,
+              deadline: new Date(Number(item?.deadline) * 1000),
+              description: item?.description,
+              goal: Number(item?.goal) / 10 ** 9,
+              id: Number(item?.id),
+              isApproved: item?.isApproved ?? false,
+              isCompleted: item?.isCompleted ?? false,
+              physicalAddress: item?.physicalAddress,
+              title: item?.title,
+            };
+          }
+          return null;
+        }
+      );
+
+      const filteredCampaigns = campaignsConverted.filter(
+        (campaign): campaign is GetAllCampaigns => campaign !== null
+      );
+
+      if (JSON.stringify(filteredCampaigns) !== JSON.stringify(campaigns)) {
+        setCampaigns(filteredCampaigns);
+      }
     }
-  }, [campaign]);
+  }, [getcampaigns, campaigns]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -126,13 +130,18 @@ const Dashboard = () => {
       <div className="flex-1 p-6 flex flex-col lg:flex-row pt-16">
         <div className="flex-1 lg:w-9/12">
           <div className="flex flex-row justify-between items-center mb-4">
-            <h1 className="text-lg font-semibold mb-4">My Campaigns</h1>
+            <div className="flex flex-col">
+              <h1 className="text-lg font-semibold text-teal-800">
+                My Campaigns
+              </h1>
+              <hr className="border-t-4 border-teal-500 w-full" />
+            </div>
             {isConnected && currentUser ? (
               <button
                 className="bg-teal-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-teal-600 text-sm"
                 onClick={() => setIsModalOpen(true)}
               >
-                Create Campaign
+                {isCreating ? "Creating..." : "Create Campaign"}
               </button>
             ) : (
               <ConnectButton label="Connect Wallet" />
@@ -149,55 +158,11 @@ const Dashboard = () => {
                 const progress =
                   (campaign?.amountRaised / campaign?.goal) * 100;
                 return (
-                  <div
+                  <DashboardCampaignItem
+                    progress={progress}
                     key={campaign.id}
-                    className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h2 className="text-xl font-bold text-gray-800">
-                          {campaign.title}
-                        </h2>
-                        <p className="text-sm text-gray-500">
-                          Owner:{" "}
-                          <span className="font-medium text-gray-700">
-                            {currentUser?.displayName || "Anonymous"}
-                          </span>
-                        </p>
-                        <p className="text-xs text-gray-400 mt-1">
-                          {campaign.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4">
-                      <p className="text-xs text-gray-500">Goal Amount</p>
-                      <p className="text-2xl font-semibold text-teal-600">
-                        {campaign.goal} USDT
-                      </p>
-                      <div className="relative mt-3 h-3 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className="absolute top-0 left-0 h-full bg-green-500 rounded-full transition-all duration-300"
-                          style={{ width: `${progress}%` }}
-                        ></div>
-                      </div>
-                      <p className="mt-2 text-right text-sm text-gray-600">
-                        {Math.round(progress)}% funded
-                      </p>
-                    </div>
-
-                    {isConnected &&
-                      currentUser?.email &&
-                      allowedAdminEmails.includes(currentUser.email) && (
-                        <button
-                          className="bg-green-700 text-white px-5 py-2 mt-3 rounded-full shadow-md hover:bg-green-800 transition-colors duration-300 w-full"
-                          onClick={() => handleApproveCampaign(campaign.id)}
-                          disabled={isApproving}
-                        >
-                          {isApproving ? "Approving..." : "Approve Campaign"}
-                        </button>
-                      )}
-                  </div>
+                    campaign={campaign}
+                  />
                 );
               })}
             </div>
@@ -206,7 +171,7 @@ const Dashboard = () => {
               <MdCampaign className="text-gray-400 text-6xl" />
 
               <p className="text-gray-500 text-sm text-center">
-                No campaigns created yet.
+                No campaigns created yet!
               </p>
 
               {isConnected && currentUser && (
