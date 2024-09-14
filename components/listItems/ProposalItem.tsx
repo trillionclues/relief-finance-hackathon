@@ -45,7 +45,7 @@ const ProposalItem = ({ proposal, progress }: CampaignItemProps) => {
               ></div>
             </div>
             <div className="flex justify-between text-sm text-gray-500 mt-1">
-              <span>${proposal?.amountRaised.toFixed(2)}</span>
+              <span>{proposal?.amountRaised.toFixed(2)} RWA</span>
               <span>{progress.toFixed(0)}%</span>
             </div>
           </div>
