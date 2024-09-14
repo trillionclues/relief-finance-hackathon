@@ -82,6 +82,7 @@ const Dashboard = () => {
       }, 100);
       toast.success("Campaign created successfully!");
       refetch();
+      window.location.reload();
       return () => clearTimeout(timeout);
     }
   }, [isSuccess, refetch]);
