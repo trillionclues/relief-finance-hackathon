@@ -15,6 +15,9 @@
 
 ---
 
+![ReliefFiance Banner](https://raw.githubusercontent.com/Geepytechnologies/ReliefFinance/main/public/background.png)
+
+
 ## Introduction
 
 Relief Finance is a decentralized platform built to support humanitarian efforts through crypto donations. It allows users to create, approve, and contribute to campaigns using Web3 wallets such as MetaMask. The platform ensures transparent fundraising by utilizing blockchain-based smart contracts.
