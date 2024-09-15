@@ -119,7 +119,7 @@ const Dashboard = () => {
       );
 
       if (JSON.stringify(filteredCampaigns) !== JSON.stringify(campaigns)) {
-        setCampaigns(filteredCampaigns);
+        setCampaigns(filteredCampaigns.reverse());
       }
     }
   }, [getcampaigns, campaigns]);

@@ -41,10 +41,6 @@ const ProposalDetails = () => {
     chainId: 42421,
   });
 
-  console.log("====================================");
-  console.log(campaignDetails);
-  console.log("====================================");
-
   useEffect(() => {
     if (campaign && Array.isArray(campaign)) {
       const flatCampaignDetails = campaign.flat();
@@ -116,13 +112,17 @@ const ProposalDetails = () => {
           <div className="flex-1 bg-white p-6 rounded-lg shadow-md">
             <div className="flex items-center mb-4">
               <h1 className="text-4xl font-bold">{campaignDetails?.title}</h1>
-              {data && !checkingStatus ? (
-                <span className="ml-4 px-3 py-[6px] text-xs font-semibold text-white bg-teal-500 rounded-md">
-                  Approved
+              {checkingStatus ? (
+                <span className="ml-4 px-4 py-[6px] text-xs  text-white bg-teal-500 rounded-md">
+                  Loading...
+                </span>
+              ) : data === false ? (
+                <span className="ml-4 px-4 py-1 text-xs text-white bg-red-500 rounded-md">
+                  Not Approved
                 </span>
               ) : (
-                <span className="ml-4 px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded-full">
-                  Not Approved
+                <span className="ml-4 px-4 py-1 text-xs text-white bg-teal-500 rounded-md">
+                  Approved
                 </span>
               )}
             </div>
@@ -197,7 +197,7 @@ const ProposalDetails = () => {
                 ) : (
                   <FaUserCircle size={48} className="text-gray-500" />
                 )}
-                <div className="mt-1">
+                <div className="mt-1 max-w-xs overflow-hidden text-ellipsis">
                   <h3 className="text-xs">{campaignDetails?.creator}</h3>
                   <p className="text-sm font-semibold text-gray-500">
                     Organizer

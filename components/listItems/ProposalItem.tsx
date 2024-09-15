@@ -1,4 +1,5 @@
 import { formatISODate } from "@/lib/utils/TextFormating";
+import { imageUrls } from "@/public/data/data";
 import { GetAllCampaigns } from "@/types/GetAllCampaignProposals";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +12,9 @@ interface CampaignItemProps {
 }
 
 const ProposalItem = ({ proposal, progress }: CampaignItemProps) => {
+  const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+  const randomDonations = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+
   return (
     <div
       key={proposal?.id}
@@ -18,7 +22,7 @@ const ProposalItem = ({ proposal, progress }: CampaignItemProps) => {
     >
       <div className="relative">
         <Image
-          src="/images/drought.png"
+          src={randomImage}
           alt={proposal?.title}
           width={400}
           height={300}
@@ -29,7 +33,7 @@ const ProposalItem = ({ proposal, progress }: CampaignItemProps) => {
         <div>
           <div className="flex justify-between items-center text-gray-500 text-xs mb-1">
             <span>{formatISODate(proposal?.createdAt)}</span>
-            <span>452 donations</span>
+            <span>{randomDonations} donations</span>
           </div>
           <h3 className="text-md font-bold text-gray-800 mb-2">
             {proposal?.title}

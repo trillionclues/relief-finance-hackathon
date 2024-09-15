@@ -59,7 +59,7 @@ const OpenProposalsList = () => {
       );
 
       if (JSON.stringify(filteredCampaigns) !== JSON.stringify(campaigns)) {
-        setCampaigns(filteredCampaigns);
+        setCampaigns(filteredCampaigns.reverse());
       }
     }
   }, [proposalList]);

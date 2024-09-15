@@ -346,3 +346,11 @@ export const allowedAdminEmails = [
   "proxyisnice@gmail.com",
   "trillionclues@gmail.com",
 ];
+
+export const imageUrls = [
+  "/images/drought.png",
+  "/images/africa.png",
+  "/images/fire.png",
+  "/images/tsunami.png",
+  "/images/flood.png",
+];

@@ -44,7 +44,7 @@ const ProposalsList = () => {
         title: campaign.title,
       }));
 
-      setCampaigns(campaignsConverted);
+      setCampaigns(campaignsConverted.reverse());
     }
   }, [proposalList]);
 
@@ -52,8 +52,11 @@ const ProposalsList = () => {
     const matchesQuery = campaign.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
+
     const matchesCategory =
-      selectedCategory === "All" || campaign.category === selectedCategory;
+      selectedCategory.toLowerCase() === "all" ||
+      campaign.category.toLowerCase() === selectedCategory.toLowerCase();
+
     return matchesQuery && matchesCategory;
   });
 
