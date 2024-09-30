@@ -2,6 +2,8 @@
 
 **Relief Finance** is a decentralized crowdfunding platform that facilitates cryptocurrency donations for humanitarian campaigns, ensuring transparency, security, and efficiency through blockchain technology.
 
+![ReliefFiance Banner](https://raw.githubusercontent.com/Geepytechnologies/ReliefFinance/main/public/background.png)
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
