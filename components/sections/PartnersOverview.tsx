@@ -32,7 +32,7 @@ export const PartnersOverview = () => {
   return (
     <section ref={ref} className="py-12 px-6 md:px-36 bg-gray-50" id="partners">
       <div className="max-w-7xl mx-auto">
-        <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">
+        {/* <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">
           Our Partners
         </h3>
         <h2 className="text-2xl md:text-4xl font-bold mb-6">
@@ -64,8 +64,8 @@ export const PartnersOverview = () => {
               />
             </div>
           ))}
-        </div>
-        <div className="mt-8 p-6 bg-teal-500 text-white rounded-lg flex flex-col md:flex-row md:items-center">
+        </div> */}
+        <div className=" p-6 bg-teal-500 text-white rounded-lg flex flex-col md:flex-row md:items-center">
           <div className="mb-4 md:mb-0 md:mr-8">
             <p className="font-semibold">CALL CENTER</p>
             <p className="text-lg">(234) 1117-555</p>
